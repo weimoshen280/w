@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI智能招聘平台</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+    <div class="auth-page">
+        <div class="auth-container">
+            <div class="auth-info">
+                <h1><i class="fas fa-robot"></i> AI智能招聘</h1>
+                <p>连接优秀人才与卓越企业，让招聘更智能、更高效</p>
+                <div class="auth-features">
+                    <div class="feature-item">
+                        <i class="fas fa-file-alt"></i>
+                        <span>AI简历解析</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-brain"></i>
+                        <span>智能人岗匹配</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-video"></i>
+                        <span>AI视频面试</span>
+                    </div>
+                </div>
+            </div>
+            <div class="auth-form-container">
+                <h2 style="text-align: center; margin-bottom: 40px;">选择您的身份</h2>
+                
+                <div style="display: flex; flex-direction: column; gap: 20px;">
+                    <div class="identity-card" onclick="selectIdentity('candidate')">
+                        <div class="identity-icon candidate-icon">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <h3>我是求职者</h3>
+                        <p>寻找合适的工作机会，管理简历和面试</p>
+                        <div class="identity-desc">
+                            <span class="tag tag-primary">简历管理</span>
+                            <span class="tag tag-primary">职位搜索</span>
+                            <span class="tag tag-primary">AI面试</span>
+                        </div>
+                    </div>
+                    
+                    <div class="identity-card" onclick="selectIdentity('hr')">
+                        <div class="identity-icon hr-icon">
+                            <i class="fas fa-building"></i>
+                        </div>
+                        <h3>我是企业HR</h3>
+                        <p>发布职位，筛选简历，管理面试流程</p>
+                        <div class="identity-desc">
+                            <span class="tag tag-success">职位管理</span>
+                            <span class="tag tag-success">AI筛选</span>
+                            <span class="tag tag-success">人才库</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .auth-features {
+            margin-top: 40px;
+        }
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+            font-size: 16px;
+        }
+        .feature-item i {
+            width: 32px;
+            height: 32px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .identity-card {
+            background-color: white;
+            border-radius: var(--radius-lg);
+            padding: 40px 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .identity-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary-color);
+        }
+        
+        .identity-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            margin: 0 auto 20px;
+        }
+        
+        .candidate-icon {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+        }
+        
+        .hr-icon {
+            background: linear-gradient(135deg, var(--success-color), #0ea5e9);
+            color: white;
+        }
+        
+        .identity-card h3 {
+            margin-bottom: 8px;
+            font-size: 20px;
+        }
+        
+        .identity-card p {
+            color: var(--text-gray);
+            margin-bottom: 16px;
+        }
+        
+        .identity-desc {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+    </style>
+
+    <script src="js/app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 确保测试账号已初始化
+            initTestAccounts();
+        });
+        
+        function selectIdentity(userType) {
+            // 根据用户类型自动登录测试账号
+            let phone, password;
+            
+            if (userType === 'candidate') {
+                phone = '13800138001';
+                password = '123456';
+            } else {
+                phone = '13900139001';
+                password = '123456';
+            }
+            
+            // 自动登录
+            if (Auth.login(phone, password, userType)) {
+                const redirect = userType === 'candidate' ? 'candidate/index.html' : 'hr/index.html';
+                setTimeout(() => window.location.href = redirect, 500);
+            }
+        }
+    </script>
+</body>
+</html>

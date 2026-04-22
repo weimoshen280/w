@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>人才库 - HR管理后台</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <a href="index.html"><i class="fas fa-robot"></i> AI招聘 HR</a>
+            </div>
+            <nav class="nav">
+                <div class="nav-links">
+                    <a href="index.html">工作台</a>
+                    <a href="jobs.html">职位管理</a>
+                    <a href="resumes.html">简历筛选</a>
+                    <a href="interviews.html">面试管理</a>
+                    <a href="talent.html" class="active">人才库</a>
+                </div>
+                <div class="nav-actions">
+                    <button class="btn btn-outline btn-sm">
+                        <i class="fas fa-bell"></i> <span class="badge badge-danger">3</span>
+                    </button>
+                    <div class="dropdown">
+                        <div class="user-menu">
+                            <div class="user-avatar">HR</div>
+                            <span>企业HR</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="dropdown-content">
+                            <a href="#"><i class="fas fa-building"></i> 企业设置</a>
+                            <a href="#"><i class="fas fa-cog"></i> 账号设置</a>
+                            <a href="../login.html"><i class="fas fa-sign-out-alt"></i> 退出</a>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+            <div class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </header>
+
+    <div class="main-content">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+            <div>
+                <h1 style="font-size: 24px; margin-bottom: 8px;">人才库</h1>
+                <p style="color: var(--text-gray);">管理企业人才资源，支持标签分类和二次激活</p>
+            </div>
+            <div style="display: flex; gap: 12px;">
+                <button class="btn btn-outline">
+                    <i class="fas fa-file-import"></i> 导入人才
+                </button>
+                <button class="btn btn-primary">
+                    <i class="fas fa-search"></i> 搜索人才
+                </button>
+            </div>
+        </div>
+
+        <!-- 统计 -->
+        <div class="stats-grid" style="grid-template-columns: repeat(5, 1fr); margin-bottom: 24px;">
+            <div class="stat-card">
+                <div class="stat-icon primary"><i class="fas fa-users"></i></div>
+                <div class="stat-info">
+                    <h4>156</h4>
+                    <p>总人才数</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon success"><i class="fas fa-star"></i></div>
+                <div class="stat-info">
+                    <h4>42</h4>
+                    <p>优质人才</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon warning"><i class="fas fa-clock"></i></div>
+                <div class="stat-info">
+                    <h4>38</h4>
+                    <p>储备人才</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon danger"><i class="fas fa-ban"></i></div>
+                <div class="stat-info">
+                    <h4>76</h4>
+                    <p>不合适</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon" style="background-color: #8b5cf6; color: white;"><i class="fas fa-sync"></i></div>
+                <div class="stat-info">
+                    <h4>12</h4>
+                    <p>待激活</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 标签筛选 -->
+        <div class="card" style="margin-bottom: 24px;">
+            <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center;">
+                <span style="color: var(--text-gray);">标签筛选：</span>
+                <button class="btn btn-sm btn-primary">全部</button>
+                <button class="btn btn-sm btn-outline">优质人才</button>
+                <button class="btn btn-sm btn-outline">技术大牛</button>
+                <button class="btn btn-sm btn-outline">管理经验</button>
+                <button class="btn btn-sm btn-outline">海归人才</button>
+                <button class="btn btn-sm btn-outline">近期活跃</button>
+                <span style="margin-left: auto; color: var(--text-light);">自定义标签 +</span>
+            </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 350px; gap: 24px;">
+            <!-- 人才列表 -->
+            <div>
+                <div class="card">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                        <div>
+                            共 <strong>156</strong> 人
+                        </div>
+                        <div style="display: flex; gap: 12px;">
+                            <select style="padding: 6px 12px; border: 1px solid var(--border-color); border-radius: var(--radius-md);">
+                                <option>按最近活跃排序</option>
+                                <option>按添加时间排序</option>
+                                <option>按匹配度排序</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px;">
+                        <!-- 人才卡片 1 -->
+                        <div class="card" style="background-color: var(--bg-light);">
+                            <div style="display: flex; gap: 16px; margin-bottom: 16px;">
+                                <div style="width: 60px; height: 60px; border-radius: 50%; background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); display: flex; align-items: center; justify-content: center; color: white; font-size: 24px; font-weight: 700; flex-shrink: 0;">
+                                    李
+                                </div>
+                                <div style="flex: 1;">
+                                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                                        <div>
+                                            <h4 style="margin-bottom: 4px;">李明</h4>
+                                            <p style="font-size: 12px; color: var(--text-gray);">高级前端开发 | 3年经验</p>
+                                        </div>
+                                        <span class="tag tag-success">优质人才</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="margin-bottom: 12px;">
+                                <span class="tag" style="margin-right: 4px;">React</span>
+                                <span class="tag" style="margin-right: 4px;">Vue</span>
+                                <span class="tag" style="margin-right: 4px;">TypeScript</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: var(--text-light);">
+                                <span><i class="fas fa-clock"></i> 3天前活跃</span>
+                                <div style="display: flex; gap: 8px;">
+                                    <button class="btn btn-sm btn-outline">约面</button>
+                                    <button class="btn btn-sm btn-outline">查看</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 人才卡片 2 -->
+                        <div class="card" style="background-color: var(--bg-light);">
+                            <div style="display: flex; gap: 16px; margin-bottom: 16px;">
+                                <div style="width: 60px; height: 60px; border-radius: 50%; background: linear-gradient(135deg, #f59e0b, #ef4444); display: flex; align-items: center; justify-content: center; color: white; font-size: 24px; font-weight: 700; flex-shrink: 0;">
+                                    王
+                                </div>
+                                <div style="flex: 1;">
+                                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                                        <div>
+                                            <h4 style="margin-bottom: 4px;">王小红</h4>
+                                            <p style="font-size: 12px; color: var(--text-gray);">前端技术专家 | 5年经验</p>
+                                        </div>
+                                        <span class="tag tag-primary">储备人才</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="margin-bottom: 12px;">
+                                <span class="tag" style="margin-right: 4px;">架构设计</span>
+                                <span class="tag" style="margin-right: 4px;">性能优化</span>
+                                <span class="tag" style="margin-right: 4px;">团队管理</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: var(--text-light);">
+                                <span><i class="fas fa-clock"></i> 1周前活跃</span>
+                                <div style="display: flex; gap: 8px;">
+                                    <button class="btn btn-sm btn-outline">约面</button>
+                                    <button class="btn btn-sm btn-outline">查看</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 人才卡片 3 -->
+                        <div class="card" style="background-color: var(--bg-light);">
+                            <div style="display: flex; gap: 16px; margin-bottom: 16px;">
+                                <div style="width: 60px; height: 60px; border-radius: 50%; background: linear-gradient(135deg, #10b981, #3b82f6); display: flex; align-items: center; justify-content: center; color: white; font-size: 24px; font-weight: 700; flex-shrink: 0;">
+                                    张
+                                </div>
+                                <div style="flex: 1;">
+                                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                                        <div>
+                                            <h4 style="margin-bottom: 4px;">张伟</h4>
+                                            <p style="font-size: 12px; color: var(--text-gray);">前端开发工程师 | 1年经验</p>
+                                        </div>
+                                        <span class="tag tag-warning">待激活</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="margin-bottom: 12px;">
+                                <span class="tag" style="margin-right: 4px;">Vue</span>
+                                <span class="tag" style="margin-right: 4px;">JavaScript</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: var(--text-light);">
+                                <span><i class="fas fa-clock"></i> 1月前活跃</span>
+                                <div style="display: flex; gap: 8px;">
+                                    <button class="btn btn-sm btn-primary">激活</button>
+                                    <button class="btn btn-sm btn-outline">查看</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 人才卡片 4 -->
+                        <div class="card" style="background-color: var(--bg-light);">
+                            <div style="display: flex; gap: 16px; margin-bottom: 16px;">
+                                <div style="width: 60px; height: 60px; border-radius: 50%; background: linear-gradient(135deg, #8b5cf6, #ec4899); display: flex; align-items: center; justify-content: center; color: white; font-size: 24px; font-weight: 700; flex-shrink: 0;">
+                                    刘
+                                </div>
+                                <div style="flex: 1;">
+                                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                                        <div>
+                                            <h4 style="margin-bottom: 4px;">刘芳</h4>
+                                            <p style="font-size: 12px; color: var(--text-gray);">全栈工程师 | 4年经验</p>
+                                        </div>
+                                        <span class="tag tag-success">优质人才</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="margin-bottom: 12px;">
+                                <span class="tag" style="margin-right: 4px;">React</span>
+                                <span class="tag" style="margin-right: 4px;">Node.js</span>
+                                <span class="tag" style="margin-right: 4px;">Python</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: var(--text-light);">
+                                <span><i class="fas fa-clock"></i> 今天活跃</span>
+                                <div style="display: flex; gap: 8px;">
+                                    <button class="btn btn-sm btn-outline">约面</button>
+                                    <button class="btn btn-sm btn-outline">查看</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pagination" style="margin-top: 24px;">
+                        <button>&laquo;</button>
+                        <button class="active">1</button>
+                        <button>2</button>
+                        <button>3</button>
+                        <button>&raquo;</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 右侧人才详情 -->
+            <div>
+                <div class="card">
+                    <div style="text-align: center; padding: 20px; border-bottom: 1px solid var(--border-color);">
+                        <div style="width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); display: flex; align-items: center; justify-content: center; color: white; font-size: 32px; font-weight: 700; margin: 0 auto 16px;">
+                            李
+                        </div>
+                        <h3>李明</h3>
+                        <p style="color: var(--text-gray); margin-bottom: 12px;">高级前端开发工程师 | 3年经验</p>
+                        <span class="tag tag-success">优质人才</span>
+                    </div>
+
+                    <div style="padding: 20px;">
+                        <h4 style="margin-bottom: 12px;">基本信息</h4>
+                        <div style="font-size: 14px; color: var(--text-gray); margin-bottom: 16px;">
+                            <p style="margin-bottom: 8px;"><i class="fas fa-phone" style="width: 20px;"></i> 138****8888</p>
+                            <p style="margin-bottom: 8px;"><i class="fas fa-envelope" style="width: 20px;"></i> liming@email.com</p>
+                            <p style="margin-bottom: 8px;"><i class="fas fa-map-marker-alt" style="width: 20px;"></i> 北京</p>
+                            <p><i class="fas fa-money-bill" style="width: 20px;"></i> 期望薪资 25K-30K</p>
+                        </div>
+
+                        <h4 style="margin-bottom: 12px;">技能标签</h4>
+                        <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px;">
+                            <span class="tag tag-primary">React</span>
+                            <span class="tag tag-primary">Vue</span>
+                            <span class="tag tag-primary">TypeScript</span>
+                            <span class="tag tag-primary">Node.js</span>
+                            <span class="tag tag-primary">Webpack</span>
+                        </div>
+
+                        <h4 style="margin-bottom: 12px;">轨迹记录</h4>
+                        <div style="font-size: 13px; color: var(--text-gray);">
+                            <div style="display: flex; gap: 12px; margin-bottom: 12px; padding-left: 20px; border-left: 2px solid var(--border-color);">
+                                <div>
+                                    <div style="font-weight: 500; color: var(--text-dark);">添加到人才库</div>
+                                    <div>2026-03-15</div>
+                                </div>
+                            </div>
+                            <div style="display: flex; gap: 12px; margin-bottom: 12px; padding-left: 20px; border-left: 2px solid var(--primary-color);">
+                                <div>
+                                    <div style="font-weight: 500; color: var(--text-dark);">标记为优质人才</div>
+                                    <div>2026-03-20</div>
+                                </div>
+                            </div>
+                            <div style="display: flex; gap: 12px; padding-left: 20px; border-left: 2px solid var(--border-color);">
+                                <div>
+                                    <div style="font-weight: 500; color: var(--text-dark);">发起AI面试</div>
+                                    <div>2026-04-10</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="margin-top: 20px;">
+                            <button class="btn btn-primary" style="width: 100%; margin-bottom: 12px;">
+                                <i class="fas fa-paper-plane"></i> 发起面试
+                            </button>
+                            <button class="btn btn-outline" style="width: 100%;">
+                                <i class="fas fa-edit"></i> 编辑标签
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/app.js"></script>
+</body>
+</html>

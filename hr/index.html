@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HR管理后台 - AI智能招聘平台</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <a href="index.html"><i class="fas fa-robot"></i> AI招聘 HR</a>
+            </div>
+            <nav class="nav">
+                <div class="nav-links">
+                    <a href="index.html" class="active">工作台</a>
+                    <a href="jobs.html">职位管理</a>
+                    <a href="resumes.html">简历筛选</a>
+                    <a href="interviews.html">面试管理</a>
+                    <a href="talent.html">人才库</a>
+                </div>
+                <div class="nav-actions">
+                    <button class="btn btn-outline btn-sm">
+                        <i class="fas fa-bell"></i> <span class="badge badge-danger">3</span>
+                    </button>
+                    <div class="dropdown">
+                        <div class="user-menu">
+                            <div class="user-avatar">HR</div>
+                            <span>企业HR</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="dropdown-content">
+                            <a href="#"><i class="fas fa-building"></i> 企业设置</a>
+                            <a href="#"><i class="fas fa-cog"></i> 账号设置</a>
+                            <a href="../login.html"><i class="fas fa-sign-out-alt"></i> 退出</a>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+            <div class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </header>
+
+    <div class="main-content">
+        <!-- 欢迎区 -->
+        <div style="margin-bottom: 24px;">
+            <h1 style="font-size: 24px; margin-bottom: 8px;">工作台</h1>
+            <p style="color: var(--text-gray);">欢迎回来，今天有 <strong style="color: var(--primary-color);">5</strong> 份新简历待处理</p>
+        </div>
+
+        <!-- 统计卡片 -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon primary">
+                    <i class="fas fa-briefcase"></i>
+                </div>
+                <div class="stat-info">
+                    <h4>12</h4>
+                    <p>在招职位</p>
+                    <span style="font-size: 12px; color: var(--success-color);">
+                        <i class="fas fa-arrow-up"></i> 2 本月新增
+                    </span>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon warning">
+                    <i class="fas fa-file-alt"></i>
+                </div>
+                <div class="stat-info">
+                    <h4>156</h4>
+                    <p>待处理简历</p>
+                    <span style="font-size: 12px; color: var(--danger-color);">
+                        <i class="fas fa-clock"></i> 5 紧急
+                    </span>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon success">
+                    <i class="fas fa-calendar-check"></i>
+                </div>
+                <div class="stat-info">
+                    <h4>8</h4>
+                    <p>待面试</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon danger">
+                    <i class="fas fa-user-plus"></i>
+                </div>
+                <div class="stat-info">
+                    <h4>3</h4>
+                    <p>本月入职</p>
+                </div>
+            </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 24px;">
+            <!-- 左侧主区域 -->
+            <div>
+                <!-- 数据看板 -->
+                <div class="card" style="margin-bottom: 24px;">
+                    <div class="card-header">
+                        <h3 class="card-title">招聘数据概览</h3>
+                        <select style="padding: 6px 12px; border: 1px solid var(--border-color); border-radius: var(--radius-md);">
+                            <option>近7天</option>
+                            <option>近30天</option>
+                            <option>近90天</option>
+                        </select>
+                    </div>
+                    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; padding: 20px 0;">
+                        <div style="text-align: center;">
+                            <div style="font-size: 28px; font-weight: 700; color: var(--primary-color);">2,345</div>
+                            <div style="font-size: 12px; color: var(--text-gray);">职位曝光</div>
+                            <div style="font-size: 11px; color: var(--success-color);">
+                                <i class="fas fa-arrow-up"></i> 12%
+                            </div>
+                        </div>
+                        <div style="text-align: center;">
+                            <div style="font-size: 28px; font-weight: 700; color: var(--secondary-color);">186</div>
+                            <div style="font-size: 12px; color: var(--text-gray);">简历投递</div>
+                            <div style="font-size: 11px; color: var(--success-color);">
+                                <i class="fas fa-arrow-up"></i> 8%
+                            </div>
+                        </div>
+                        <div style="text-align: center;">
+                            <div style="font-size: 28px; font-weight: 700; color: var(--warning-color);">45</div>
+                            <div style="font-size: 12px; color: var(--text-gray);">进入面试</div>
+                            <div style="font-size: 11px; color: var(--text-light);">
+                                <i class="fas fa-minus"></i> 0%
+                            </div>
+                        </div>
+                        <div style="text-align: center;">
+                            <div style="font-size: 28px; font-weight: 700; color: var(--success-color);">5</div>
+                            <div style="font-size: 12px; color: var(--text-gray);">成功入职</div>
+                            <div style="font-size: 11px; color: var(--success-color);">
+                                <i class="fas fa-arrow-up"></i> 25%
+                            </div>
+                        </div>
+                    </div>
+                    <div style="margin-top: 20px;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                            <span style="font-size: 14px; color: var(--text-gray);">平均招聘周期</span>
+                            <span style="font-size: 14px; font-weight: 600;">18 天</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 65%;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 待处理简历 -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            <i class="fas fa-clock" style="color: var(--warning-color);"></i>
+                            待处理简历
+                        </h3>
+                        <a href="resumes.html" class="btn btn-outline btn-sm">查看全部</a>
+                    </div>
+                    <div class="table-wrapper">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>候选人</th>
+                                    <th>应聘职位</th>
+                                    <th>匹配度</th>
+                                    <th>投递时间</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <div style="display: flex; align-items: center; gap: 12px;">
+                                            <div style="width: 36px; height: 36px; border-radius: 50%; background-color: var(--primary-color); color: white; display: flex; align-items: center; justify-content: center;">李</div>
+                                            <div>
+                                                <div style="font-weight: 500;">李明</div>
+                                                <div style="font-size: 12px; color: var(--text-light);">3年经验</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>高级前端开发工程师</td>
+                                    <td>
+                                        <span class="tag tag-success">92%</span>
+                                    </td>
+                                    <td>2小时前</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-primary" onclick="viewResume('1')">查看</button>
+                                        <button class="btn btn-sm btn-secondary" onclick="inviteInterview('1')">约面</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div style="display: flex; align-items: center; gap: 12px;">
+                                            <div style="width: 36px; height: 36px; border-radius: 50%; background-color: var(--secondary-color); color: white; display: flex; align-items: center; justify-content: center;">王</div>
+                                            <div>
+                                                <div style="font-weight: 500;">王小红</div>
+                                                <div style="font-size: 12px; color: var(--text-light);">5年经验</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>前端技术专家</td>
+                                    <td>
+                                        <span class="tag tag-success">88%</span>
+                                    </td>
+                                    <td>5小时前</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-primary" onclick="viewResume('2')">查看</button>
+                                        <button class="btn btn-sm btn-secondary" onclick="inviteInterview('2')">约面</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div style="display: flex; align-items: center; gap: 12px;">
+                                            <div style="width: 36px; height: 36px; border-radius: 50%; background-color: var(--warning-color); color: white; display: flex; align-items: center; justify-content: center;">张</div>
+                                            <div>
+                                                <div style="font-weight: 500;">张伟</div>
+                                                <div style="font-size: 12px; color: var(--text-light);">1年经验</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>前端开发工程师</td>
+                                    <td>
+                                        <span class="tag tag-warning">78%</span>
+                                    </td>
+                                    <td>1天前</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-primary" onclick="viewResume('3')">查看</button>
+                                        <button class="btn btn-sm btn-outline">不合适</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 右侧边栏 -->
+            <div>
+                <!-- 快捷操作 -->
+                <div class="card" style="margin-bottom: 24px;">
+                    <h3 class="card-title" style="margin-bottom: 16px;">快捷操作</h3>
+                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;">
+                        <button class="btn btn-primary" onclick="window.location.href='jobs.html?action=new'">
+                            <i class="fas fa-plus"></i> 发布职位
+                        </button>
+                        <button class="btn btn-secondary">
+                            <i class="fas fa-search"></i> 搜索人才
+                        </button>
+                        <button class="btn btn-outline">
+                            <i class="fas fa-file-import"></i> 导入简历
+                        </button>
+                        <button class="btn btn-outline">
+                            <i class="fas fa-chart-bar"></i> 数据报表
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 今日日程 -->
+                <div class="card" style="margin-bottom: 24px;">
+                    <h3 class="card-title" style="margin-bottom: 16px;">
+                        <i class="fas fa-calendar" style="color: var(--primary-color);"></i>
+                        今日日程
+                    </h3>
+                    <div style="padding: 12px 0;">
+                        <div style="display: flex; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--border-color);">
+                            <div style="width: 60px; text-align: center;">
+                                <div style="font-size: 20px; font-weight: 700; color: var(--primary-color);">10:00</div>
+                            </div>
+                            <div>
+                                <div style="font-weight: 500; margin-bottom: 4px;">AI视频面试 - 李明</div>
+                                <div style="font-size: 12px; color: var(--text-gray);">
+                                    <i class="fas fa-video"></i> 视频面试
+                                </div>
+                            </div>
+                        </div>
+                        <div style="display: flex; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--border-color);">
+                            <div style="width: 60px; text-align: center;">
+                                <div style="font-size: 20px; font-weight: 700; color: var(--secondary-color);">14:00</div>
+                            </div>
+                            <div>
+                                <div style="font-weight: 500; margin-bottom: 4px;">复试 - 王小红</div>
+                                <div style="font-size: 12px; color: var(--text-gray);">
+                                    <i class="fas fa-building"></i> 现场面试
+                                </div>
+                            </div>
+                        </div>
+                        <div style="display: flex; gap: 12px; padding: 12px 0;">
+                            <div style="width: 60px; text-align: center;">
+                                <div style="font-size: 20px; font-weight: 700; color: var(--warning-color);">16:00</div>
+                            </div>
+                            <div>
+                                <div style="font-weight: 500; margin-bottom: 4px;">发放Offer - 张伟</div>
+                                <div style="font-size: 12px; color: var(--text-gray);">
+                                    <i class="fas fa-file-signature"></i> 录用审批
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AI智能提示 -->
+                <div class="card" style="background: linear-gradient(135deg, var(--primary-color), var(--primary-dark)); color: white;">
+                    <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
+                        <i class="fas fa-robot" style="font-size: 24px;"></i>
+                        <h3 style="font-size: 16px; margin: 0;">AI智能建议</h3>
+                    </div>
+                    <ul style="font-size: 14px; line-height: 2; opacity: 0.95; padding-left: 20px;">
+                        <li>李明简历与职位匹配度达92%，建议优先安排面试</li>
+                        <li>前端岗位竞争激烈，建议提高薪资竞争力</li>
+                        <li>本月招聘转化率为2.7%，低于行业均值3.2%</li>
+                    </ul>
+                    <button class="btn btn-sm" style="background-color: rgba(255,255,255,0.2); color: white; margin-top: 12px; width: 100%;">
+                        查看详细分析
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 简历详情弹窗 -->
+    <div id="resumeModal" class="modal">
+        <div class="modal-content" style="max-width: 900px;">
+            <div class="modal-header">
+                <h3>简历详情</h3>
+                <span class="modal-close" onclick="Modal.close('resumeModal')">&times;</span>
+            </div>
+            <div class="modal-body" id="resumeModalContent">
+                <!-- 动态加载 -->
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" onclick="Modal.close('resumeModal')">关闭</button>
+                <button class="btn btn-danger" onclick="rejectResume()">
+                    <i class="fas fa-times"></i> 不合适
+                </button>
+                <button class="btn btn-secondary" onclick="saveToTalent()">
+                    <i class="fas fa-save"></i> 存入人才库
+                </button>
+                <button class="btn btn-primary" onclick="inviteInterview()">
+                    <i class="fas fa-video"></i> 发起AI面试
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/app.js"></script>
+    <script>
+        function viewResume(id) {
+            document.getElementById('resumeModalContent').innerHTML = `
+                <div style="display: flex; gap: 24px;">
+                    <div style="flex: 1;">
+                        <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 24px;">
+                            <div style="width: 80px; height: 80px; border-radius: 50%; background-color: var(--primary-color); color: white; display: flex; align-items: center; justify-content: center; font-size: 32px; font-weight: 700;">李</div>
+                            <div>
+                                <h2 style="margin-bottom: 4px;">李明</h2>
+                                <p style="color: var(--text-gray);">3年经验 | 本科 | 期望薪资 25K-30K</p>
+                            </div>
+                        </div>
+                        
+                        <div style="background-color: var(--bg-light); padding: 16px; border-radius: var(--radius-md); margin-bottom: 20px;">
+                            <div style="display: flex; gap: 24px;">
+                                <div><i class="fas fa-phone" style="color: var(--text-gray);"></i> 138****8888</div>
+                                <div><i class="fas fa-envelope" style="color: var(--text-gray);"></i> liming@email.com</div>
+                                <div><i class="fas fa-map-marker-alt" style="color: var(--text-gray);"></i> 北京</div>
+                            </div>
+                        </div>
+                        
+                        <div class="resume-section">
+                            <h4 style="margin-bottom: 12px;">求职意向</h4>
+                            <p>期望职位：高级前端开发工程师 | 期望城市：北京 | 状态：随时到岗</p>
+                        </div>
+                        
+                        <div class="resume-section">
+                            <h4 style="margin-bottom: 12px;">工作经历</h4>
+                            <div style="margin-bottom: 16px;">
+                                <div style="font-weight: 600;">前端开发工程师 - 科技创新有限公司</div>
+                                <div style="color: var(--text-gray); font-size: 14px;">2021.03 - 至今</div>
+                                <p style="margin-top: 8px;">负责公司核心产品的前端架构设计与开发，使用React技术栈构建高可用Web应用。</p>
+                            </div>
+                        </div>
+                        
+                        <div class="resume-section">
+                            <h4 style="margin-bottom: 12px;">项目经验</h4>
+                            <div style="margin-bottom: 16px;">
+                                <div style="font-weight: 600;">电商平台前端重构</div>
+                                <p style="margin-top: 8px;">主导电商平台前端重构项目，提升页面加载速度40%，用户满意度提升25%。</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="width: 280px;">
+                        <div style="background-color: var(--bg-light); padding: 20px; border-radius: var(--radius-md); margin-bottom: 20px;">
+                            <h4 style="margin-bottom: 16px;">
+                                <i class="fas fa-robot" style="color: var(--primary-color);"></i>
+                                AI分析
+                            </h4>
+                            <div style="margin-bottom: 16px;">
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                                    <span>人岗匹配度</span>
+                                    <span style="font-weight: 700; color: var(--success-color);">92%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 92%;"></div>
+                                </div>
+                            </div>
+                            <div style="font-size: 14px; margin-bottom: 12px;">
+                                <div style="color: var(--success-color); margin-bottom: 4px;">✓ 优势</div>
+                                <ul style="padding-left: 16px; color: var(--text-gray);">
+                                    <li>技术栈与岗位高度匹配</li>
+                                    <li>具备大型项目经验</li>
+                                    <li>有团队管理经验</li>
+                                </ul>
+                            </div>
+                            <div style="font-size: 14px;">
+                                <div style="color: var(--warning-color); margin-bottom: 4px;">⚠ 注意</div>
+                                <ul style="padding-left: 16px; color: var(--text-gray);">
+                                    <li>期望薪资略高于预算</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div style="background-color: var(--bg-light); padding: 20px; border-radius: var(--radius-md);">
+                            <h4 style="margin-bottom: 12px;">技能标签</h4>
+                            <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                                <span class="tag tag-primary">React</span>
+                                <span class="tag tag-primary">TypeScript</span>
+                                <span class="tag tag-primary">Node.js</span>
+                                <span class="tag tag-primary">Webpack</span>
+                                <span class="tag tag-primary">Vue</span>
+                                <span class="tag tag-primary">Python</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            Modal.open('resumeModal');
+        }
+
+        function inviteInterview(id) {
+            Utils.showToast('已发送AI面试邀请', 'success');
+            Modal.close('resumeModal');
+        }
+
+        function rejectResume() {
+            if (confirm('确定将此候选人标记为不合适？')) {
+                Utils.showToast('已标记为不合适', 'success');
+                Modal.close('resumeModal');
+            }
+        }
+
+        function saveToTalent() {
+            Utils.showToast('已存入人才库', 'success');
+            Modal.close('resumeModal');
+        }
+    </script>
+
+    <style>
+        .resume-section {
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .resume-section:last-child {
+            border-bottom: none;
+        }
+        .resume-section h4 {
+            color: var(--primary-color);
+            margin-bottom: 8px;
+        }
+    </style>
+</body>
+</html>

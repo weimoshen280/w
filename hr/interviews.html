@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>面试管理 - HR管理后台</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <a href="index.html"><i class="fas fa-robot"></i> AI招聘 HR</a>
+            </div>
+            <nav class="nav">
+                <div class="nav-links">
+                    <a href="index.html">工作台</a>
+                    <a href="jobs.html">职位管理</a>
+                    <a href="resumes.html">简历筛选</a>
+                    <a href="interviews.html" class="active">面试管理</a>
+                    <a href="talent.html">人才库</a>
+                </div>
+                <div class="nav-actions">
+                    <button class="btn btn-outline btn-sm">
+                        <i class="fas fa-bell"></i> <span class="badge badge-danger">3</span>
+                    </button>
+                    <div class="dropdown">
+                        <div class="user-menu">
+                            <div class="user-avatar">HR</div>
+                            <span>企业HR</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="dropdown-content">
+                            <a href="#"><i class="fas fa-building"></i> 企业设置</a>
+                            <a href="#"><i class="fas fa-cog"></i> 账号设置</a>
+                            <a href="../login.html"><i class="fas fa-sign-out-alt"></i> 退出</a>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+            <div class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </header>
+
+    <div class="main-content">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+            <div>
+                <h1 style="font-size: 24px; margin-bottom: 8px;">面试管理</h1>
+                <p style="color: var(--text-gray);">管理候选人面试安排和面试结果</p>
+            </div>
+            <button class="btn btn-primary" onclick="batchInvite()">
+                <i class="fas fa-users"></i> 批量发送面试邀请
+            </button>
+        </div>
+
+        <!-- 统计 -->
+        <div class="stats-grid" style="grid-template-columns: repeat(4, 1fr); margin-bottom: 24px;">
+            <div class="stat-card">
+                <div class="stat-icon primary"><i class="fas fa-calendar"></i></div>
+                <div class="stat-info">
+                    <h4>8</h4>
+                    <p>待面试</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon warning"><i class="fas fa-clock"></i></div>
+                <div class="stat-info">
+                    <h4>3</h4>
+                    <p>今日面试</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon success"><i class="fas fa-check-circle"></i></div>
+                <div class="stat-info">
+                    <h4>15</h4>
+                    <p>已完成</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon danger"><i class="fas fa-times-circle"></i></div>
+                <div class="stat-info">
+                    <h4>5</h4>
+                    <p>已拒绝</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 筛选 -->
+        <div class="card" style="margin-bottom: 24px;">
+            <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+                <button class="btn btn-sm filter-btn active">全部</button>
+                <button class="btn btn-sm filter-btn">待安排</button>
+                <button class="btn btn-sm filter-btn">AI面试中</button>
+                <button class="btn btn-sm filter-btn">待复试</button>
+                <button class="btn btn-sm filter-btn">已完成</button>
+            </div>
+        </div>
+
+        <!-- 面试列表 -->
+        <div class="card">
+            <div class="table-wrapper">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th><input type="checkbox"></th>
+                            <th>候选人</th>
+                            <th>应聘职位</th>
+                            <th>面试类型</th>
+                            <th>面试时间</th>
+                            <th>状态</th>
+                            <th>AI评分</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><input type="checkbox"></td>
+                            <td>
+                                <div style="display: flex; align-items: center; gap: 12px;">
+                                    <div style="width: 36px; height: 36px; border-radius: 50%; background-color: var(--primary-color); color: white; display: flex; align-items: center; justify-content: center;">李</div>
+                                    <div>
+                                        <div style="font-weight: 500;">李明</div>
+                                        <div style="font-size: 12px; color: var(--text-light);">前端开发工程师</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>高级前端开发工程师</td>
+                            <td>
+                                <span class="ai-badge"><i class="fas fa-robot"></i> AI面试</span>
+                            </td>
+                            <td>今天 10:00</td>
+                            <td>
+                                <span class="tag tag-warning">即将开始</span>
+                            </td>
+                            <td>
+                                <span style="color: var(--success-color); font-weight: 600;">85</span>
+                            </td>
+                            <td>
+                                <button class="btn btn-sm btn-primary">进入面试</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox"></td>
+                            <td>
+                                <div style="display: flex; align-items: center; gap: 12px;">
+                                    <div style="width: 36px; height: 36px; border-radius: 50%; background-color: var(--secondary-color); color: white; display: flex; align-items: center; justify-content: center;">王</div>
+                                    <div>
+                                        <div style="font-weight: 500;">王小红</div>
+                                        <div style="font-size: 12px; color: var(--text-light);">前端技术专家</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>前端技术专家</td>
+                            <td>
+                                <span class="ai-badge"><i class="fas fa-robot"></i> AI面试</span>
+                            </td>
+                            <td>今天 14:00</td>
+                            <td>
+                                <span class="tag">待开始</span>
+                            </td>
+                            <td>
+                                <span style="color: var(--success-color); font-weight: 600;">88</span>
+                            </td>
+                            <td>
+                                <button class="btn btn-sm btn-secondary">查看详情</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox"></td>
+                            <td>
+                                <div style="display: flex; align-items: center; gap: 12px;">
+                                    <div style="width: 36px; height: 36px; border-radius: 50%; background-color: var(--warning-color); color: white; display: flex; align-items: center; justify-content: center;">张</div>
+                                    <div>
+                                        <div style="font-weight: 500;">张伟</div>
+                                        <div style="font-size: 12px; color: var(--text-light);">3年经验</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>前端开发工程师</td>
+                            <td>
+                                <span style="color: var(--text-gray);"><i class="fas fa-user"></i> 复试</span>
+                            </td>
+                            <td>明天 10:00</td>
+                            <td>
+                                <span class="tag tag-primary">已安排</span>
+                            </td>
+                            <td>
+                                <span style="color: var(--success-color); font-weight: 600;">92</span>
+                            </td>
+                            <td>
+                                <button class="btn btn-sm btn-secondary">调整时间</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox"></td>
+                            <td>
+                                <div style="display: flex; align-items: center; gap: 12px;">
+                                    <div style="width: 36px; height: 36px; border-radius: 50%; background-color: var(--danger-color); color: white; display: flex; align-items: center; justify-content: center;">陈</div>
+                                    <div>
+                                        <div style="font-weight: 500;">陈刚</div>
+                                        <div style="font-size: 12px; color: var(--text-light);">5年经验</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>前端架构师</td>
+                            <td>
+                                <span class="ai-badge"><i class="fas fa-robot"></i> AI初试</span>
+                            </td>
+                            <td>已完成</td>
+                            <td>
+                                <span class="tag tag-success">通过</span>
+                            </td>
+                            <td>
+                                <span style="color: var(--success-color); font-weight: 600;">90</span>
+                            </td>
+                            <td>
+                                <button class="btn btn-sm btn-primary">安排复试</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- AI面试报告预览 -->
+        <div class="card" style="margin-top: 24px;">
+            <div class="card-header">
+                <h3 class="card-title">
+                    <i class="fas fa-robot" style="color: var(--primary-color);"></i>
+                    AI面试报告 - 李明
+                </h3>
+                <div>
+                    <button class="btn btn-sm btn-outline">
+                        <i class="fas fa-video"></i> 查看回放
+                    </button>
+                    <button class="btn btn-sm btn-primary">
+                        <i class="fas fa-check"></i> 通过
+                    </button>
+                </div>
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; margin-bottom: 20px;">
+                <div style="text-align: center; padding: 16px; background-color: var(--bg-light); border-radius: var(--radius-md);">
+                    <div style="font-size: 28px; font-weight: 700; color: var(--success-color);">85</div>
+                    <div style="font-size: 12px; color: var(--text-gray);">综合得分</div>
+                </div>
+                <div style="text-align: center; padding: 16px; background-color: var(--bg-light); border-radius: var(--radius-md);">
+                    <div style="font-size: 28px; font-weight: 700; color: var(--primary-color);">88</div>
+                    <div style="font-size: 12px; color: var(--text-gray);">表达能力</div>
+                </div>
+                <div style="text-align: center; padding: 16px; background-color: var(--bg-light); border-radius: var(--radius-md);">
+                    <div style="font-size: 28px; font-weight: 700; color: var(--secondary-color);">85</div>
+                    <div style="font-size: 12px; color: var(--text-gray);">逻辑思维</div>
+                </div>
+                <div style="text-align: center; padding: 16px; background-color: var(--bg-light); border-radius: var(--radius-md);">
+                    <div style="font-size: 28px; font-weight: 700; color: var(--warning-color);">82</div>
+                    <div style="font-size: 12px; color: var(--text-gray);">专业度</div>
+                </div>
+                <div style="text-align: center; padding: 16px; background-color: var(--bg-light); border-radius: var(--radius-md);">
+                    <div style="font-size: 28px; font-weight: 700; color: var(--success-color);">90</div>
+                    <div style="font-size: 12px; color: var(--text-gray);">稳定性</div>
+                </div>
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;">
+                <div style="background-color: #d1fae5; padding: 16px; border-radius: var(--radius-md);">
+                    <h4 style="margin-bottom: 8px; color: var(--success-color);">
+                        <i class="fas fa-thumbs-up"></i> 优势
+                    </h4>
+                    <ul style="font-size: 14px; color: var(--text-dark); line-height: 1.8;">
+                        <li>技术栈与岗位高度匹配</li>
+                        <li>项目经验描述清晰具体</li>
+                        <li>有团队协作和带领经验</li>
+                    </ul>
+                </div>
+                <div style="background-color: #fef3c7; padding: 16px; border-radius: var(--radius-md);">
+                    <h4 style="margin-bottom: 8px; color: var(--warning-color);">
+                        <i class="fas fa-lightbulb"></i> 建议
+                    </h4>
+                    <ul style="font-size: 14px; color: var(--text-dark); line-height: 1.8;">
+                        <li>建议安排现场复试，深入考察架构能力</li>
+                        <li>可适当提高薪资以提高竞争力</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/app.js"></script>
+    <script>
+        function batchInvite() {
+            Utils.showToast('请选择要发送邀请的候选人', 'info');
+        }
+
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    </script>
+
+    <style>
+        .filter-btn {
+            background-color: var(--bg-light);
+            border: 1px solid var(--border-color);
+            color: var(--text-gray);
+        }
+        .filter-btn.active {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            color: white;
+        }
+    </style>
+</body>
+</html>

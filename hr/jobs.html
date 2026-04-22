@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>职位管理 - HR管理后台</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <a href="index.html"><i class="fas fa-robot"></i> AI招聘 HR</a>
+            </div>
+            <nav class="nav">
+                <div class="nav-links">
+                    <a href="index.html">工作台</a>
+                    <a href="jobs.html" class="active">职位管理</a>
+                    <a href="resumes.html">简历筛选</a>
+                    <a href="interviews.html">面试管理</a>
+                    <a href="talent.html">人才库</a>
+                </div>
+                <div class="nav-actions">
+                    <button class="btn btn-outline btn-sm">
+                        <i class="fas fa-bell"></i> <span class="badge badge-danger">3</span>
+                    </button>
+                    <div class="dropdown">
+                        <div class="user-menu">
+                            <div class="user-avatar">HR</div>
+                            <span>企业HR</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="dropdown-content">
+                            <a href="#"><i class="fas fa-building"></i> 企业设置</a>
+                            <a href="#"><i class="fas fa-cog"></i> 账号设置</a>
+                            <a href="../login.html"><i class="fas fa-sign-out-alt"></i> 退出</a>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+            <div class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </header>
+
+    <div class="main-content">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+            <div>
+                <h1 style="font-size: 24px; margin-bottom: 8px;">职位管理</h1>
+                <p style="color: var(--text-gray);">管理企业招聘职位，发布新职位或编辑现有职位</p>
+            </div>
+            <button class="btn btn-primary" onclick="openJobModal()">
+                <i class="fas fa-plus"></i> 发布新职位
+            </button>
+        </div>
+
+        <!-- 统计 -->
+        <div class="stats-grid" style="grid-template-columns: repeat(4, 1fr); margin-bottom: 24px;">
+            <div class="stat-card">
+                <div class="stat-icon primary"><i class="fas fa-briefcase"></i></div>
+                <div class="stat-info">
+                    <h4>12</h4>
+                    <p>在招职位</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon success"><i class="fas fa-eye"></i></div>
+                <div class="stat-info">
+                    <h4>2,345</h4>
+                    <p>总浏览量</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon warning"><i class="fas fa-paper-plane"></i></div>
+                <div class="stat-info">
+                    <h4>186</h4>
+                    <p>收到投递</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon danger"><i class="fas fa-fire"></i></div>
+                <div class="stat-info">
+                    <h4>5</h4>
+                    <p>急聘职位</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 筛选 -->
+        <div class="card" style="margin-bottom: 24px;">
+            <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center;">
+                <input type="text" placeholder="搜索职位..." style="padding: 8px 12px; border: 1px solid var(--border-color); border-radius: var(--radius-md);" class="form-control" style="width: auto;">
+                <select style="padding: 8px 12px; border: 1px solid var(--border-color); border-radius: var(--radius-md);">
+                    <option>全部状态</option>
+                    <option>招聘中</option>
+                    <option>已下架</option>
+                    <option>草稿</option>
+                </select>
+                <select style="padding: 8px 12px; border: 1px solid var(--border-color); border-radius: var(--radius-md);">
+                    <option>全部类型</option>
+                    <option>全职</option>
+                    <option>兼职</option>
+                    <option>实习</option>
+                </select>
+                <button class="btn btn-outline btn-sm">筛选</button>
+            </div>
+        </div>
+
+        <!-- 职位列表 -->
+        <div class="card">
+            <div class="table-wrapper">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>职位信息</th>
+                            <th>薪资范围</th>
+                            <th>状态</th>
+                            <th>浏览/投递</th>
+                            <th>发布时间</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="jobsTableBody">
+                        <!-- 动态加载 -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- 新建/编辑职位弹窗 -->
+    <div id="jobModal" class="modal">
+        <div class="modal-content" style="max-width: 800px;">
+            <div class="modal-header">
+                <h3 id="jobModalTitle">发布新职位</h3>
+                <span class="modal-close" onclick="Modal.close('jobModal')">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="form-row">
+                    <div class="form-group" style="grid-column: span 2;">
+                        <label>职位名称 *</label>
+                        <input type="text" id="jobTitle" class="form-control" placeholder="如：高级前端开发工程师">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>工作城市 *</label>
+                        <select id="jobCity" class="form-control">
+                            <option value="">选择城市</option>
+                            <option value="北京">北京</option>
+                            <option value="上海">上海</option>
+                            <option value="深圳">深圳</option>
+                            <option value="广州">广州</option>
+                            <option value="杭州">杭州</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>职位类型 *</label>
+                        <select id="jobType" class="form-control">
+                            <option value="全职">全职</option>
+                            <option value="兼职">兼职</option>
+                            <option value="实习">实习</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>经验要求 *</label>
+                        <select id="jobExperience" class="form-control">
+                            <option value="1-3年">1-3年</option>
+                            <option value="3-5年">3-5年</option>
+                            <option value="5年以上">5年以上</option>
+                            <option value="在校生">在校生</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>学历要求 *</label>
+                        <select id="jobEducation" class="form-control">
+                            <option value="大专">大专</option>
+                            <option value="本科">本科</option>
+                            <option value="硕士">硕士</option>
+                            <option value="博士">博士</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>薪资范围(最低) *</label>
+                        <input type="number" id="jobSalaryMin" class="form-control" placeholder="如：20">
+                    </div>
+                    <div class="form-group">
+                        <label>薪资范围(最高) *</label>
+                        <input type="number" id="jobSalaryMax" class="form-control" placeholder="如：30">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>职位描述 *</label>
+                    <textarea id="jobDescription" class="form-control" rows="4" placeholder="请输入职位描述..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label>任职要求 *</label>
+                    <textarea id="jobRequirements" class="form-control" rows="4" placeholder="请输入任职要求，每行一条"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" id="jobUrgent"> 
+                        <span>设置为急聘职位</span>
+                    </label>
+                </div>
+                
+                <div style="background-color: var(--bg-light); padding: 16px; border-radius: var(--radius-md); margin-top: 20px;">
+                    <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+                        <i class="fas fa-robot" style="color: var(--primary-color);"></i>
+                        <span style="font-weight: 600;">AI辅助</span>
+                    </div>
+                    <button type="button" class="btn btn-outline btn-sm" onclick="generateJD()">
+                        <i class="fas fa-magic"></i> AI生成职位描述
+                    </button>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" onclick="Modal.close('jobModal')">取消</button>
+                <button class="btn btn-outline" onclick="saveAsDraft()">保存草稿</button>
+                <button class="btn btn-primary" onclick="publishJob()">
+                    <i class="fas fa-upload"></i> 发布职位
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/app.js"></script>
+    <script>
+        let editingJobId = null;
+
+        document.addEventListener('DOMContentLoaded', function() {
+            loadJobs();
+            
+            const params = new URLSearchParams(window.location.search);
+            if (params.get('action') === 'new') {
+                openJobModal();
+            }
+        });
+
+        function loadJobs() {
+            const jobs = JobManager.getAll();
+            const tbody = document.getElementById('jobsTableBody');
+            
+            tbody.innerHTML = jobs.map(job => `
+                <tr>
+                    <td>
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <div>
+                                <div style="font-weight: 500;">${job.title}</div>
+                                <div style="font-size: 12px; color: var(--text-gray);">${job.city} | ${job.experience} | ${job.education}</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <span style="color: var(--danger-color); font-weight: 600;">${job.salary}</span>
+                    </td>
+                    <td>
+                        ${job.urgent ? '<span class="tag tag-danger">急聘</span>' : '<span class="tag tag-success">招聘中</span>'}
+                    </td>
+                    <td>
+                        <div style="font-size: 12px; color: var(--text-gray);">
+                            <div><i class="fas fa-eye"></i> ${job.views}</div>
+                            <div><i class="fas fa-paper-plane"></i> ${job.applications}</div>
+                        </div>
+                    </td>
+                    <td>${Utils.formatDate(job.createdAt)}</td>
+                    <td>
+                        <button class="btn btn-sm btn-outline" onclick="editJob('${job.id}')">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn btn-sm btn-outline" onclick="toggleJobStatus('${job.id}')">
+                            <i class="fas fa-toggle-${job.urgent ? 'on' : 'off'}"></i>
+                        </button>
+                        <button class="btn btn-sm btn-outline" onclick="refreshJob('${job.id}')">
+                            <i class="fas fa-sync"></i>
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function openJobModal(jobId = null) {
+            editingJobId = jobId;
+            document.getElementById('jobModalTitle').textContent = jobId ? '编辑职位' : '发布新职位';
+            
+            if (jobId) {
+                const job = JobManager.getById(jobId);
+                if (job) {
+                    document.getElementById('jobTitle').value = job.title;
+                    document.getElementById('jobCity').value = job.city;
+                    document.getElementById('jobType').value = job.type;
+                    document.getElementById('jobExperience').value = job.experience;
+                    document.getElementById('jobEducation').value = job.education;
+                    const [min, max] = job.salary.replace('K', '').split('-');
+                    document.getElementById('jobSalaryMin').value = min;
+                    document.getElementById('jobSalaryMax').value = max;
+                    document.getElementById('jobDescription').value = job.description;
+                    document.getElementById('jobRequirements').value = job.requirements.join('\n');
+                    document.getElementById('jobUrgent').checked = job.urgent;
+                }
+            } else {
+                document.getElementById('jobTitle').value = '';
+                document.getElementById('jobCity').value = '';
+                document.getElementById('jobType').value = '全职';
+                document.getElementById('jobExperience').value = '1-3年';
+                document.getElementById('jobEducation').value = '本科';
+                document.getElementById('jobSalaryMin').value = '';
+                document.getElementById('jobSalaryMax').value = '';
+                document.getElementById('jobDescription').value = '';
+                document.getElementById('jobRequirements').value = '';
+                document.getElementById('jobUrgent').checked = false;
+            }
+            
+            Modal.open('jobModal');
+        }
+
+        function editJob(jobId) {
+            openJobModal(jobId);
+        }
+
+        function publishJob() {
+            const title = document.getElementById('jobTitle').value;
+            const city = document.getElementById('jobCity').value;
+            const type = document.getElementById('jobType').value;
+            const experience = document.getElementById('jobExperience').value;
+            const education = document.getElementById('jobEducation').value;
+            const salaryMin = document.getElementById('jobSalaryMin').value;
+            const salaryMax = document.getElementById('jobSalaryMax').value;
+            const description = document.getElementById('jobDescription').value;
+            const requirements = document.getElementById('jobRequirements').value.split('\n').filter(r => r.trim());
+            const urgent = document.getElementById('jobUrgent').checked;
+            
+            if (!title || !city || !description || !requirements.length) {
+                Utils.showToast('请填写必填项', 'error');
+                return;
+            }
+            
+            const jobData = {
+                title,
+                city,
+                type,
+                experience,
+                education,
+                salary: `${salaryMin}K-${salaryMax}K`,
+                description,
+                requirements,
+                urgent,
+                benefits: ['五险一金', '带薪年假', '弹性工作', '年度旅游'],
+                hrId: Auth.currentUser?.id || 'hr001',
+                company: '科技创新有限公司'
+            };
+            
+            if (editingJobId) {
+                JobManager.update(editingJobId, jobData);
+                Utils.showToast('职位已更新', 'success');
+            } else {
+                JobManager.create(jobData);
+                Utils.showToast('职位发布成功', 'success');
+            }
+            
+            Modal.close('jobModal');
+            loadJobs();
+        }
+
+        function saveAsDraft() {
+            Utils.showToast('草稿已保存', 'success');
+            Modal.close('jobModal');
+        }
+
+        function toggleJobStatus(jobId) {
+            const job = JobManager.getById(jobId);
+            if (job) {
+                JobManager.update(jobId, { urgent: !job.urgent });
+                Utils.showToast('状态已更新', 'success');
+                loadJobs();
+            }
+        }
+
+        function refreshJob(jobId) {
+            Utils.showToast('职位已刷新', 'success');
+            loadJobs();
+        }
+
+        function generateJD() {
+            const title = document.getElementById('jobTitle').value;
+            if (!title) {
+                Utils.showToast('请先输入职位名称', 'warning');
+                return;
+            }
+            
+            Utils.showToast('正在使用AI生成职位描述...', 'success');
+            
+            setTimeout(() => {
+                document.getElementById('jobDescription').value = `负责公司核心产品的前端开发工作，参与技术选型和架构设计。
+
+岗位职责：
+1. 负责公司Web产品的前端架构设计与开发
+2. 优化前端性能，提升用户体验
+3. 参与前端技术团队建设
+4. 解决技术难题，推动技术进步`;
+
+                document.getElementById('jobRequirements').value = `精通React或Vue等主流前端框架
+3年以上前端开发经验
+熟悉前端工程化和性能优化
+具备良好的沟通能力和团队协作精神
+有大型项目架构经验者优先`;
+
+                Utils.showToast('AI已生成职位描述', 'success');
+            }, 1500);
+        }
+    </script>
+</body>
+</html>
