@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>职位搜索 - AI智能招聘平台</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <a href="index.html"><i class="fas fa-robot"></i> AI招聘</a>
+            </div>
+            <nav class="nav">
+                <div class="nav-links">
+                    <a href="index.html">首页</a>
+                    <a href="jobs.html" class="active">职位</a>
+                    <a href="resume.html">简历</a>
+                    <a href="applications.html">投递</a>
+                    <a href="interview.html">面试</a>
+                </div>
+                <div class="nav-actions">
+                    <button class="btn btn-outline btn-sm" onclick="window.location.href='chat.html'">
+                        <i class="fas fa-comment"></i> 消息
+                    </button>
+                    <div class="dropdown">
+                        <div class="user-menu">
+                            <div class="user-avatar">张</div>
+                            <span>张三</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="dropdown-content">
+                            <a href="profile.html"><i class="fas fa-user"></i> 个人中心</a>
+                            <a href="resume.html"><i class="fas fa-file-alt"></i> 我的简历</a>
+                            <a href="settings.html"><i class="fas fa-cog"></i> 设置</a>
+                            <a href="../login.html"><i class="fas fa-sign-out-alt"></i> 退出</a>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+            <div class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </header>
+
+    <div style="background-color: var(--bg-light); padding: 24px 0;">
+        <div class="container">
+            <div class="search-bar">
+                <input type="text" id="searchKeyword" placeholder="搜索职位、公司或关键词">
+                <select id="searchCity">
+                    <option value="">选择城市</option>
+                    <option value="北京">北京</option>
+                    <option value="上海">上海</option>
+                    <option value="深圳">深圳</option>
+                    <option value="广州">广州</option>
+                    <option value="杭州">杭州</option>
+                </select>
+                <select id="searchType">
+                    <option value="">职位类型</option>
+                    <option value="全职">全职</option>
+                    <option value="兼职">兼职</option>
+                    <option value="实习">实习</option>
+                </select>
+                <select id="searchExperience">
+                    <option value="">经验要求</option>
+                    <option value="在校生">在校生</option>
+                    <option value="1-3年">1-3年</option>
+                    <option value="3-5年">3-5年</option>
+                    <option value="5年以上">5年以上</option>
+                </select>
+                <button class="btn btn-primary" onclick="searchJobs()">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container" style="padding: 24px 24px;">
+        <div style="display: flex; gap: 24px;">
+            <!-- 筛选面板 -->
+            <div style="width: 280px; flex-shrink: 0;">
+                <div class="card">
+                    <h3 class="card-title" style="margin-bottom: 20px;">筛选条件</h3>
+                    
+                    <div class="filter-section">
+                        <h4 style="font-size: 14px; margin-bottom: 12px; color: var(--text-gray);">职位类型</h4>
+                        <label class="checkbox-label" style="margin-bottom: 8px;">
+                            <input type="checkbox" value="全职" onchange="filterJobs()"> 全职
+                        </label>
+                        <label class="checkbox-label" style="margin-bottom: 8px;">
+                            <input type="checkbox" value="兼职" onchange="filterJobs()"> 兼职
+                        </label>
+                        <label class="checkbox-label" style="margin-bottom: 8px;">
+                            <input type="checkbox" value="实习" onchange="filterJobs()"> 实习
+                        </label>
+                    </div>
+
+                    <div class="filter-section" style="margin-top: 24px;">
+                        <h4 style="font-size: 14px; margin-bottom: 12px; color: var(--text-gray);">薪资范围</h4>
+                        <label class="checkbox-label" style="margin-bottom: 8px;">
+                            <input type="checkbox" value="0-10" onchange="filterJobs()"> 10K以下
+                        </label>
+                        <label class="checkbox-label" style="margin-bottom: 8px;">
+                            <input type="checkbox" value="10-20" onchange="filterJobs()"> 10K-20K
+                        </label>
+                        <label class="checkbox-label" style="margin-bottom: 8px;">
+                            <input type="checkbox" value="20-30" onchange="filterJobs()"> 20K-30K
+                        </label>
+                        <label class="checkbox-label" style="margin-bottom: 8px;">
+                            <input type="checkbox" value="30+" onchange="filterJobs()"> 30K以上
+                        </label>
+                    </div>
+
+                    <div class="filter-section" style="margin-top: 24px;">
+                        <h4 style="font-size: 14px; margin-bottom: 12px; color: var(--text-gray);">学历要求</h4>
+                        <label class="checkbox-label" style="margin-bottom: 8px;">
+                            <input type="checkbox" value="大专"> 大专
+                        </label>
+                        <label class="checkbox-label" style="margin-bottom: 8px;">
+                            <input type="checkbox" value="本科"> 本科
+                        </label>
+                        <label class="checkbox-label" style="margin-bottom: 8px;">
+                            <input type="checkbox" value="硕士"> 硕士
+                        </label>
+                        <label class="checkbox-label" style="margin-bottom: 8px;">
+                            <input type="checkbox" value="博士"> 博士
+                        </label>
+                    </div>
+
+                    <div class="filter-section" style="margin-top: 24px;">
+                        <h4 style="font-size: 14px; margin-bottom: 12px; color: var(--text-gray);">公司规模</h4>
+                        <label class="checkbox-label" style="margin-bottom: 8px;">
+                            <input type="checkbox" value="0-50"> 50人以下
+                        </label>
+                        <label class="checkbox-label" style="margin-bottom: 8px;">
+                            <input type="checkbox" value="50-500"> 50-500人
+                        </label>
+                        <label class="checkbox-label" style="margin-bottom: 8px;">
+                            <input type="checkbox" value="500-1000"> 500-1000人
+                        </label>
+                        <label class="checkbox-label" style="margin-bottom: 8px;">
+                            <input type="checkbox" value="1000+"> 1000人以上
+                        </label>
+                    </div>
+
+                    <button class="btn btn-outline" style="width: 100%; margin-top: 24px;" onclick="resetFilters()">重置筛选</button>
+                </div>
+            </div>
+
+            <!-- 职位列表 -->
+            <div style="flex: 1;">
+                <div class="card" style="margin-bottom: 20px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            共找到 <strong id="jobCount">0</strong> 个职位
+                        </div>
+                        <div style="display: flex; gap: 12px; align-items: center;">
+                            <select id="sortBy" onchange="sortJobs()" style="padding: 6px 12px; border: 1px solid var(--border-color); border-radius: var(--radius-md);">
+                                <option value="relevance">智能排序</option>
+                                <option value="newest">最新发布</option>
+                                <option value="salary_high">薪资最高</option>
+                                <option value="salary_low">薪资最低</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="jobsList" class="job-list">
+                    <!-- 动态加载 -->
+                </div>
+
+                <div id="pagination" class="pagination">
+                    <!-- 分页 -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 职位详情弹窗 -->
+    <div id="jobDetailModal" class="modal">
+        <div class="modal-content" style="max-width: 800px;">
+            <div class="modal-header">
+                <h3 id="modalJobTitle">职位详情</h3>
+                <span class="modal-close" onclick="Modal.close('jobDetailModal')">&times;</span>
+            </div>
+            <div class="modal-body" id="modalJobContent">
+                <!-- 动态加载 -->
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" onclick="saveJob()">
+                    <i class="fas fa-heart"></i> 收藏
+                </button>
+                <button class="btn btn-primary" onclick="applyForJob()">
+                    <i class="fas fa-paper-plane"></i> 立即投递
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/app.js"></script>
+    <script>
+        let currentJobs = [];
+        let currentJobId = null;
+        const pageSize = 10;
+        let currentPage = 1;
+
+        document.addEventListener('DOMContentLoaded', function() {
+            loadFiltersFromURL();
+            loadJobs();
+        });
+
+        function loadFiltersFromURL() {
+            const params = new URLSearchParams(window.location.search);
+            const keyword = params.get('keyword');
+            const city = params.get('city');
+            const experience = params.get('experience');
+            
+            if (keyword) document.getElementById('searchKeyword').value = keyword;
+            if (city) document.getElementById('searchCity').value = city;
+            if (experience) document.getElementById('searchExperience').value = experience;
+        }
+
+        function loadJobs() {
+            const keyword = document.getElementById('searchKeyword').value;
+            const city = document.getElementById('searchCity').value;
+            const experience = document.getElementById('searchExperience').value;
+            
+            const filters = {};
+            if (keyword) filters.keyword = keyword;
+            if (city) filters.city = city;
+            if (experience) filters.experience = experience;
+            
+            currentJobs = JobManager.getAll(filters);
+            document.getElementById('jobCount').textContent = currentJobs.length;
+            renderJobs();
+        }
+
+        function renderJobs() {
+            const container = document.getElementById('jobsList');
+            const start = (currentPage - 1) * pageSize;
+            const end = start + pageSize;
+            const pageJobs = currentJobs.slice(start, end);
+            
+            if (pageJobs.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-search"></i>
+                        <h3>未找到匹配的职位</h3>
+                        <p>试试调整筛选条件或搜索关键词</p>
+                        <button class="btn btn-primary" onclick="resetFilters()">重置筛选</button>
+                    </div>
+                `;
+                return;
+            }
+            
+            container.innerHTML = pageJobs.map(job => `
+                <div class="job-card" style="cursor: pointer;" onclick="showJobDetail('${job.id}')">
+                    <div class="job-card-header">
+                        <div>
+                            <div class="job-title">${job.title}</div>
+                            <div class="company-name">${job.company}</div>
+                        </div>
+                        <div style="text-align: right;">
+                            ${job.urgent ? '<span class="tag tag-danger" style="margin-bottom: 4px;">急聘</span><br>' : ''}
+                            <span class="tag tag-primary">${job.type}</span>
+                        </div>
+                    </div>
+                    <div class="job-meta">
+                        <span><i class="fas fa-map-marker-alt"></i> ${job.city}</span>
+                        <span><i class="fas fa-briefcase"></i> ${job.experience}</span>
+                        <span><i class="fas fa-graduation-cap"></i> ${job.education}</span>
+                    </div>
+                    <p style="color: var(--text-gray); margin-bottom: 12px; font-size: 14px;">${job.description}</p>
+                    <div class="job-tags">
+                        ${job.benefits.slice(0, 4).map(b => `<span class="tag">${b}</span>`).join('')}
+                    </div>
+                    <div class="job-footer">
+                        <div class="salary">${job.salary}</div>
+                        <div style="font-size: 12px; color: var(--text-light);">
+                            ${Utils.formatDate(job.createdAt)} 发布
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+            
+            renderPagination();
+        }
+
+        function renderPagination() {
+            const totalPages = Math.ceil(currentJobs.length / pageSize);
+            const pagination = document.getElementById('pagination');
+            
+            if (totalPages <= 1) {
+                pagination.innerHTML = '';
+                return;
+            }
+            
+            let html = '';
+            for (let i = 1; i <= totalPages; i++) {
+                html += `<button class="${i === currentPage ? 'active' : ''}" onclick="goToPage(${i})">${i}</button>`;
+            }
+            pagination.innerHTML = html;
+        }
+
+        function goToPage(page) {
+            currentPage = page;
+            renderJobs();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function searchJobs() {
+            currentPage = 1;
+            loadJobs();
+        }
+
+        function filterJobs() {
+            currentPage = 1;
+            loadJobs();
+        }
+
+        function sortJobs() {
+            const sortBy = document.getElementById('sortBy').value;
+            switch (sortBy) {
+                case 'newest':
+                    currentJobs.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+                    break;
+                case 'salary_high':
+                    currentJobs.sort((a, b) => {
+                        const aMax = parseInt(a.salary.split('-')[1] || a.salary) * 1000;
+                        const bMax = parseInt(b.salary.split('-')[1] || b.salary) * 1000;
+                        return bMax - aMax;
+                    });
+                    break;
+            }
+            renderJobs();
+        }
+
+        function resetFilters() {
+            document.getElementById('searchKeyword').value = '';
+            document.getElementById('searchCity').value = '';
+            document.getElementById('searchType').value = '';
+            document.getElementById('searchExperience').value = '';
+            document.getElementById('sortBy').value = 'relevance';
+            currentPage = 1;
+            loadJobs();
+        }
+
+        function showJobDetail(jobId) {
+            currentJobId = jobId;
+            const job = JobManager.getById(jobId);
+            if (!job) return;
+            
+            document.getElementById('modalJobTitle').textContent = job.title;
+            document.getElementById('modalJobContent').innerHTML = `
+                <div style="margin-bottom: 20px;">
+                    <div style="font-size: 20px; font-weight: 600; margin-bottom: 8px;">${job.title}</div>
+                    <div style="color: var(--text-gray); margin-bottom: 12px;">${job.company}</div>
+                    <div class="salary" style="font-size: 24px;">${job.salary}</div>
+                </div>
+                
+                <div class="job-meta" style="margin-bottom: 20px;">
+                    <span><i class="fas fa-map-marker-alt"></i> ${job.city}</span>
+                    <span><i class="fas fa-briefcase"></i> ${job.experience}</span>
+                    <span><i class="fas fa-graduation-cap"></i> ${job.education}</span>
+                    <span><i class="fas fa-clock"></i> ${job.type}</span>
+                </div>
+                
+                <div style="margin-bottom: 20px;">
+                    <h4 style="margin-bottom: 12px;">职位描述</h4>
+                    <p style="color: var(--text-gray); line-height: 1.8;">${job.description}</p>
+                </div>
+                
+                <div style="margin-bottom: 20px;">
+                    <h4 style="margin-bottom: 12px;">任职要求</h4>
+                    <ul style="color: var(--text-gray); line-height: 2; padding-left: 20px;">
+                        ${job.requirements.map(r => `<li>${r}</li>`).join('')}
+                    </ul>
+                </div>
+                
+                <div style="margin-bottom: 20px;">
+                    <h4 style="margin-bottom: 12px;">公司福利</h4>
+                    <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                        ${job.benefits.map(b => `<span class="tag tag-success">${b}</span>`).join('')}
+                    </div>
+                </div>
+                
+                <div style="background-color: var(--bg-light); padding: 16px; border-radius: var(--radius-md);">
+                    <div style="display: flex; justify-content: space-between; color: var(--text-gray); font-size: 14px;">
+                        <span><i class="fas fa-eye"></i> ${job.views} 次浏览</span>
+                        <span><i class="fas fa-users"></i> ${job.applications} 人投递</span>
+                        <span><i class="fas fa-clock"></i> ${Utils.formatDate(job.createdAt)} 发布</span>
+                    </div>
+                </div>
+            `;
+            
+            Modal.open('jobDetailModal');
+        }
+
+        function applyForJob() {
+            const user = Auth.init();
+            if (!user) {
+                Modal.close('jobDetailModal');
+                Utils.showToast('请先登录', 'warning');
+                setTimeout(() => window.location.href = '../login.html', 1000);
+                return;
+            }
+            
+            const job = JobManager.getById(currentJobId);
+            ApplicationManager.apply({
+                jobId: job.id,
+                jobTitle: job.title,
+                company: job.company,
+                candidateId: user.id,
+                candidateName: user.name || user.phone,
+                hrId: job.hrId
+            });
+            
+            Modal.close('jobDetailModal');
+        }
+
+        function saveJob() {
+            Utils.showToast('已收藏职位', 'success');
+        }
+
+        // 回车搜索
+        document.getElementById('searchKeyword')?.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                searchJobs();
+            }
+        });
+    </script>
+
+    <style>
+        .filter-section {
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .filter-section:last-child {
+            border-bottom: none;
+        }
+    </style>
+</body>
+</html>

@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的简历 - AI智能招聘平台</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <a href="index.html"><i class="fas fa-robot"></i> AI招聘</a>
+            </div>
+            <nav class="nav">
+                <div class="nav-links">
+                    <a href="index.html">首页</a>
+                    <a href="jobs.html">职位</a>
+                    <a href="resume.html" class="active">简历</a>
+                    <a href="applications.html">投递</a>
+                    <a href="interview.html">面试</a>
+                </div>
+                <div class="nav-actions">
+                    <button class="btn btn-outline btn-sm" onclick="window.location.href='chat.html'">
+                        <i class="fas fa-comment"></i> 消息
+                    </button>
+                    <div class="dropdown">
+                        <div class="user-menu">
+                            <div class="user-avatar">张</div>
+                            <span>张三</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="dropdown-content">
+                            <a href="profile.html"><i class="fas fa-user"></i> 个人中心</a>
+                            <a href="resume.html"><i class="fas fa-file-alt"></i> 我的简历</a>
+                            <a href="settings.html"><i class="fas fa-cog"></i> 设置</a>
+                            <a href="../login.html"><i class="fas fa-sign-out-alt"></i> 退出</a>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+            <div class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </header>
+
+    <div class="container" style="padding: 24px;">
+        <div class="page-header" style="padding: 0; border: none; margin-bottom: 24px;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <h1>我的简历</h1>
+                    <p>完善简历信息，提高被企业发现的概率</p>
+                </div>
+                <div style="display: flex; gap: 12px;">
+                    <button class="btn btn-outline" onclick="uploadResume()">
+                        <i class="fas fa-upload"></i> 上传简历
+                    </button>
+                    <button class="btn btn-primary" onclick="saveResume()">
+                        <i class="fas fa-save"></i> 保存简历
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="resume-editor">
+            <!-- 简历模块导航 -->
+            <div class="resume-sections">
+                <div class="resume-section-item active" onclick="showSection('basic')">
+                    <i class="fas fa-user"></i>
+                    <span>基本信息</span>
+                </div>
+                <div class="resume-section-item" onclick="showSection('education')">
+                    <i class="fas fa-graduation-cap"></i>
+                    <span>教育经历</span>
+                </div>
+                <div class="resume-section-item" onclick="showSection('work')">
+                    <i class="fas fa-briefcase"></i>
+                    <span>工作经历</span>
+                </div>
+                <div class="resume-section-item" onclick="showSection('project')">
+                    <i class="fas fa-project-diagram"></i>
+                    <span>项目经历</span>
+                </div>
+                <div class="resume-section-item" onclick="showSection('skill')">
+                    <i class="fas fa-tools"></i>
+                    <span>技能特长</span>
+                </div>
+                <div class="resume-section-item" onclick="showSection('evaluation')">
+                    <i class="fas fa-pen"></i>
+                    <span>自我评价</span>
+                </div>
+            </div>
+
+            <!-- 简历编辑内容 -->
+            <div class="resume-editor-content">
+                <!-- 基本信息 -->
+                <div id="section-basic" class="resume-section-content">
+                    <h2 style="margin-bottom: 24px;">基本信息</h2>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>姓名 *</label>
+                            <input type="text" id="name" class="form-control" placeholder="请输入姓名" required>
+                        </div>
+                        <div class="form-group">
+                            <label>性别</label>
+                            <select id="gender" class="form-control">
+                                <option value="">请选择</option>
+                                <option value="男">男</option>
+                                <option value="女">女</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>手机号 *</label>
+                            <input type="tel" id="phone" class="form-control" placeholder="请输入手机号" required>
+                        </div>
+                        <div class="form-group">
+                            <label>邮箱 *</label>
+                            <input type="email" id="email" class="form-control" placeholder="请输入邮箱" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>出生年月</label>
+                            <input type="date" id="birthday" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>工作年限</label>
+                            <select id="workYears" class="form-control">
+                                <option value="">请选择</option>
+                                <option value="应届毕业生">应届毕业生</option>
+                                <option value="1年以下">1年以下</option>
+                                <option value="1-3年">1-3年</option>
+                                <option value="3-5年">3-5年</option>
+                                <option value="5-10年">5-10年</option>
+                                <option value="10年以上">10年以上</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>期望职位</label>
+                            <input type="text" id="desiredPosition" class="form-control" placeholder="如：前端开发工程师">
+                        </div>
+                        <div class="form-group">
+                            <label>期望城市</label>
+                            <input type="text" id="desiredCity" class="form-control" placeholder="如：北京">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>期望薪资范围</label>
+                            <select id="expectedSalary" class="form-control">
+                                <option value="">请选择</option>
+                                <option value="5K以下">5K以下</option>
+                                <option value="5K-10K">5K-10K</option>
+                                <option value="10K-15K">10K-15K</option>
+                                <option value="15K-20K">15K-20K</option>
+                                <option value="20K-30K">20K-30K</option>
+                                <option value="30K以上">30K以上</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 教育经历 -->
+                <div id="section-education" class="resume-section-content" style="display: none;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+                        <h2>教育经历</h2>
+                        <button class="btn btn-outline btn-sm" onclick="addEducation()">
+                            <i class="fas fa-plus"></i> 添加
+                        </button>
+                    </div>
+                    <div id="education-list">
+                        <!-- 动态添加 -->
+                    </div>
+                </div>
+
+                <!-- 工作经历 -->
+                <div id="section-work" class="resume-section-content" style="display: none;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+                        <h2>工作经历</h2>
+                        <button class="btn btn-outline btn-sm" onclick="addWork()">
+                            <i class="fas fa-plus"></i> 添加
+                        </button>
+                    </div>
+                    <div id="work-list">
+                        <!-- 动态添加 -->
+                    </div>
+                </div>
+
+                <!-- 项目经历 -->
+                <div id="section-project" class="resume-section-content" style="display: none;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+                        <h2>项目经历</h2>
+                        <button class="btn btn-outline btn-sm" onclick="addProject()">
+                            <i class="fas fa-plus"></i> 添加
+                        </button>
+                    </div>
+                    <div id="project-list">
+                        <!-- 动态添加 -->
+                    </div>
+                </div>
+
+                <!-- 技能特长 -->
+                <div id="section-skill" class="resume-section-content" style="display: none;">
+                    <h2 style="margin-bottom: 24px;">技能特长</h2>
+                    <div class="form-group">
+                        <label>专业技能（每项技能用逗号分隔）</label>
+                        <textarea id="skills" class="form-control" rows="4" placeholder="如：React, Vue, Node.js, TypeScript, Webpack"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>语言能力</label>
+                        <input type="text" id="languages" class="form-control" placeholder="如：英语 CET-6">
+                    </div>
+                </div>
+
+                <!-- 自我评价 -->
+                <div id="section-evaluation" class="resume-section-content" style="display: none;">
+                    <h2 style="margin-bottom: 24px;">自我评价</h2>
+                    <div class="form-group">
+                        <textarea id="selfEvaluation" class="form-control" rows="8" placeholder="简要描述您的职业优势、工作风格和职业目标..."></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AI分析面板 -->
+            <div style="width: 320px; flex-shrink: 0;">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            <i class="fas fa-robot" style="color: var(--primary-color);"></i>
+                            AI简历分析
+                        </h3>
+                    </div>
+                    
+                    <div id="aiAnalysis" style="text-align: center; padding: 40px 20px; color: var(--text-gray);">
+                        <i class="fas fa-brain" style="font-size: 48px; margin-bottom: 16px; opacity: 0.5;"></i>
+                        <p>保存简历后获得AI分析</p>
+                    </div>
+                    
+                    <div id="aiAnalysisResult" style="display: none;">
+                        <div class="match-indicator" style="margin-bottom: 20px;">
+                            <span>简历完整度</span>
+                            <div class="match-bar" style="flex: 1; margin: 0 12px;">
+                                <div class="match-fill" id="completenessBar" style="width: 0%;"></div>
+                            </div>
+                            <span class="match-score" id="completenessScore">0%</span>
+                        </div>
+                        
+                        <div style="margin-bottom: 20px;">
+                            <div style="font-size: 14px; color: var(--text-gray); margin-bottom: 8px;">AI建议</div>
+                            <ul style="font-size: 14px; color: var(--text-dark);" id="aiSuggestions">
+                                <!-- 动态添加 -->
+                            </ul>
+                        </div>
+                        
+                        <div style="background-color: var(--bg-light); padding: 16px; border-radius: var(--radius-md);">
+                            <div style="font-size: 14px; font-weight: 600; margin-bottom: 8px;">
+                                <i class="fas fa-shield-alt" style="color: var(--success-color);"></i>
+                                简历风险检测
+                            </div>
+                            <div id="riskCheck" style="font-size: 13px; color: var(--text-gray);">
+                                <!-- 动态添加 -->
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button class="btn btn-primary" style="width: 100%; margin-top: 20px;" onclick="analyzeWithAI()">
+                        <i class="fas fa-magic"></i> AI优化简历
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 上传简历弹窗 -->
+    <div id="uploadModal" class="modal">
+        <div class="modal-content" style="max-width: 500px;">
+            <div class="modal-header">
+                <h3>上传简历</h3>
+                <span class="modal-close" onclick="Modal.close('uploadModal')">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div style="border: 2px dashed var(--border-color); border-radius: var(--radius-lg); padding: 60px 20px; text-align: center;">
+                    <i class="fas fa-cloud-upload-alt" style="font-size: 64px; color: var(--text-light); margin-bottom: 20px;"></i>
+                    <p style="margin-bottom: 16px;">将文件拖拽到此处，或点击选择文件</p>
+                    <p style="color: var(--text-light); font-size: 12px;">支持 PDF、Word 格式，大小不超过 5MB</p>
+                    <input type="file" id="resumeFile" accept=".pdf,.doc,.docx" style="display: none;" onchange="handleFileUpload(this)">
+                    <button class="btn btn-primary" style="margin-top: 20px;" onclick="document.getElementById('resumeFile').click()">
+                        选择文件
+                    </button>
+                </div>
+                
+                <div id="uploadProgress" style="display: none; margin-top: 20px;">
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <i class="fas fa-file-alt" style="font-size: 24px; color: var(--primary-color);"></i>
+                        <div style="flex: 1;">
+                            <div style="font-size: 14px; margin-bottom: 4px;" id="fileName">resume.pdf</div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="progressBar" style="width: 0%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/app.js"></script>
+    <script>
+        let resumeData = ResumeManager.getDefaultResume();
+
+        document.addEventListener('DOMContentLoaded', function() {
+            loadResume();
+        });
+
+        function loadResume() {
+            const saved = ResumeManager.get();
+            if (saved && saved.name) {
+                resumeData = saved;
+                fillFormData();
+            }
+        }
+
+        function fillFormData() {
+            document.getElementById('name').value = resumeData.name || '';
+            document.getElementById('gender').value = resumeData.gender || '';
+            document.getElementById('phone').value = resumeData.phone || '';
+            document.getElementById('email').value = resumeData.email || '';
+            document.getElementById('birthday').value = resumeData.birthday || '';
+            document.getElementById('workYears').value = resumeData.workYears || '';
+            document.getElementById('desiredPosition').value = resumeData.desiredPosition || '';
+            document.getElementById('desiredCity').value = resumeData.desiredCity || '';
+            document.getElementById('expectedSalary').value = resumeData.expectedSalary || '';
+            document.getElementById('skills').value = resumeData.skills?.join(', ') || '';
+            document.getElementById('languages').value = resumeData.languages || '';
+            document.getElementById('selfEvaluation').value = resumeData.selfEvaluation || '';
+            
+            renderEducationList();
+            renderWorkList();
+            renderProjectList();
+        }
+
+        function showSection(section) {
+            document.querySelectorAll('.resume-section-content').forEach(el => {
+                el.style.display = 'none';
+            });
+            document.querySelectorAll('.resume-section-item').forEach(el => {
+                el.classList.remove('active');
+            });
+            
+            document.getElementById(`section-${section}`).style.display = 'block';
+            document.querySelector(`.resume-section-item[onclick="showSection('${section}')"]`).classList.add('active');
+        }
+
+        function collectFormData() {
+            resumeData.name = document.getElementById('name').value;
+            resumeData.gender = document.getElementById('gender').value;
+            resumeData.phone = document.getElementById('phone').value;
+            resumeData.email = document.getElementById('email').value;
+            resumeData.birthday = document.getElementById('birthday').value;
+            resumeData.workYears = document.getElementById('workYears').value;
+            resumeData.desiredPosition = document.getElementById('desiredPosition').value;
+            resumeData.desiredCity = document.getElementById('desiredCity').value;
+            resumeData.expectedSalary = document.getElementById('expectedSalary').value;
+            resumeData.skills = document.getElementById('skills').value.split(',').map(s => s.trim()).filter(s => s);
+            resumeData.languages = document.getElementById('languages').value;
+            resumeData.selfEvaluation = document.getElementById('selfEvaluation').value;
+        }
+
+        function saveResume() {
+            collectFormData();
+            resumeData.updatedAt = new Date().toISOString();
+            
+            if (ResumeManager.save(resumeData)) {
+                Utils.showToast('简历保存成功', 'success');
+                runAIAnalysis();
+            } else {
+                Utils.showToast('请先登录', 'error');
+            }
+        }
+
+        function uploadResume() {
+            Modal.open('uploadModal');
+        }
+
+        function handleFileUpload(input) {
+            const file = input.files[0];
+            if (!file) return;
+            
+            document.getElementById('fileName').textContent = file.name;
+            document.getElementById('uploadProgress').style.display = 'block';
+            
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += Math.random() * 30;
+                if (progress >= 100) {
+                    progress = 100;
+                    clearInterval(interval);
+                    
+                    setTimeout(() => {
+                        Modal.close('uploadModal');
+                        Utils.showToast('简历上传成功！正在解析...', 'success');
+                        
+                        // 模拟AI解析
+                        setTimeout(() => {
+                            AIResumeParser.parse({}).then(analysis => {
+                                Utils.showToast('简历解析完成！', 'success');
+                                // 填充解析结果
+                                document.getElementById('skills').value = analysis.extractedSkills.join(', ');
+                                saveResume();
+                            });
+                        }, 1500);
+                    }, 500);
+                }
+                document.getElementById('progressBar').style.width = progress + '%';
+            }, 200);
+        }
+
+        function runAIAnalysis() {
+            const completeness = calculateCompleteness();
+            document.getElementById('completenessScore').textContent = completeness + '%';
+            document.getElementById('completenessBar').style.width = completeness + '%';
+            
+            const suggestions = generateSuggestions();
+            document.getElementById('aiSuggestions').innerHTML = suggestions.map(s => `<li style="margin-bottom: 8px;"><i class="fas fa-lightbulb" style="color: var(--warning-color); margin-right: 8px;"></i>${s}</li>`).join('');
+            
+            document.getElementById('riskCheck').innerHTML = `
+                <p><i class="fas fa-check-circle" style="color: var(--success-color);"></i> 工作经历时间线正常</p>
+                <p><i class="fas fa-check-circle" style="color: var(--success-color);"></i> 教育背景描述清晰</p>
+                <p><i class="fas fa-check-circle" style="color: var(--success-color);"></i> 技能关键词丰富</p>
+            `;
+            
+            document.getElementById('aiAnalysis').style.display = 'none';
+            document.getElementById('aiAnalysisResult').style.display = 'block';
+        }
+
+        function calculateCompleteness() {
+            let score = 0;
+            const fields = ['name', 'phone', 'email', 'gender', 'birthday', 'workYears', 
+                          'desiredPosition', 'desiredCity', 'skills', 'selfEvaluation'];
+            fields.forEach(field => {
+                const el = document.getElementById(field);
+                if (el && el.value) score += 8;
+            });
+            
+            if (resumeData.education?.length > 0) score += 8;
+            if (resumeData.workExperience?.length > 0) score += 8;
+            if (resumeData.projectExperience?.length > 0) score += 8;
+            
+            return Math.min(score, 100);
+        }
+
+        function generateSuggestions() {
+            const suggestions = [];
+            if (!resumeData.selfEvaluation) suggestions.push('添加自我评价，增加HR的了解');
+            if (!resumeData.skills?.length) suggestions.push('完善技能特长，提高岗位匹配度');
+            if (!resumeData.education?.length) suggestions.push('添加教育经历，展示学术背景');
+            if (!resumeData.workExperience?.length) suggestions.push('添加工作经历，证明工作能力');
+            if (!resumeData.projectExperience?.length) suggestions.push('添加项目经历，展现技术实力');
+            if (suggestions.length === 0) suggestions.push('简历已完成，保持更新哦！');
+            return suggestions;
+        }
+
+        function analyzeWithAI() {
+            collectFormData();
+            saveResume();
+            
+            Utils.showToast('正在使用AI优化简历...', 'success');
+            
+            setTimeout(() => {
+                Utils.showToast('AI优化完成！简历质量提升明显', 'success');
+            }, 2000);
+        }
+
+        // 教育经历
+        function addEducation() {
+            const edu = {
+                id: Utils.generateId(),
+                school: '',
+                degree: '',
+                major: '',
+                startDate: '',
+                endDate: ''
+            };
+            resumeData.education = resumeData.education || [];
+            resumeData.education.push(edu);
+            renderEducationList();
+        }
+
+        function renderEducationList() {
+            const container = document.getElementById('education-list');
+            if (!resumeData.education?.length) {
+                container.innerHTML = `
+                    <div style="text-align: center; padding: 40px; color: var(--text-gray);">
+                        <p>暂无教育经历</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            container.innerHTML = resumeData.education.map((edu, index) => `
+                <div class="card" style="margin-bottom: 16px; background-color: var(--bg-light);">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 16px;">
+                        <span style="font-weight: 600;">教育经历 ${index + 1}</span>
+                        <button class="btn btn-sm btn-danger" onclick="removeEducation(${index})">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>学校</label>
+                            <input type="text" class="form-control" value="${edu.school}" 
+                                   onchange="updateEducation(${index}, 'school', this.value)" placeholder="学校名称">
+                        </div>
+                        <div class="form-group">
+                            <label>学历</label>
+                            <select class="form-control" onchange="updateEducation(${index}, 'degree', this.value)">
+                                <option value="">请选择</option>
+                                <option value="大专" ${edu.degree === '大专' ? 'selected' : ''}>大专</option>
+                                <option value="本科" ${edu.degree === '本科' ? 'selected' : ''}>本科</option>
+                                <option value="硕士" ${edu.degree === '硕士' ? 'selected' : ''}>硕士</option>
+                                <option value="博士" ${edu.degree === '博士' ? 'selected' : ''}>博士</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>专业</label>
+                            <input type="text" class="form-control" value="${edu.major}"
+                                   onchange="updateEducation(${index}, 'major', this.value)" placeholder="所学专业">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>开始时间</label>
+                            <input type="month" class="form-control" value="${edu.startDate}"
+                                   onchange="updateEducation(${index}, 'startDate', this.value)">
+                        </div>
+                        <div class="form-group">
+                            <label>结束时间</label>
+                            <input type="month" class="form-control" value="${edu.endDate}"
+                                   onchange="updateEducation(${index}, 'endDate', this.value)">
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function updateEducation(index, field, value) {
+            if (resumeData.education[index]) {
+                resumeData.education[index][field] = value;
+            }
+        }
+
+        function removeEducation(index) {
+            resumeData.education.splice(index, 1);
+            renderEducationList();
+        }
+
+        // 工作经历
+        function addWork() {
+            const work = {
+                id: Utils.generateId(),
+                company: '',
+                position: '',
+                startDate: '',
+                endDate: '',
+                description: ''
+            };
+            resumeData.workExperience = resumeData.workExperience || [];
+            resumeData.workExperience.push(work);
+            renderWorkList();
+        }
+
+        function renderWorkList() {
+            const container = document.getElementById('work-list');
+            if (!resumeData.workExperience?.length) {
+                container.innerHTML = `
+                    <div style="text-align: center; padding: 40px; color: var(--text-gray);">
+                        <p>暂无工作经历</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            container.innerHTML = resumeData.workExperience.map((work, index) => `
+                <div class="card" style="margin-bottom: 16px; background-color: var(--bg-light);">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 16px;">
+                        <span style="font-weight: 600;">工作经历 ${index + 1}</span>
+                        <button class="btn btn-sm btn-danger" onclick="removeWork(${index})">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>公司名称</label>
+                            <input type="text" class="form-control" value="${work.company}"
+                                   onchange="updateWork(${index}, 'company', this.value)" placeholder="公司名称">
+                        </div>
+                        <div class="form-group">
+                            <label>职位名称</label>
+                            <input type="text" class="form-control" value="${work.position}"
+                                   onchange="updateWork(${index}, 'position', this.value)" placeholder="职位名称">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>开始时间</label>
+                            <input type="month" class="form-control" value="${work.startDate}"
+                                   onchange="updateWork(${index}, 'startDate', this.value)">
+                        </div>
+                        <div class="form-group">
+                            <label>结束时间</label>
+                            <input type="month" class="form-control" value="${work.endDate}"
+                                   onchange="updateWork(${index}, 'endDate', this.value)" placeholder="至今">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>工作描述</label>
+                        <textarea class="form-control" rows="3"
+                                  onchange="updateWork(${index}, 'description', this.value)" 
+                                  placeholder="简要描述工作内容和成就">${work.description}</textarea>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function updateWork(index, field, value) {
+            if (resumeData.workExperience[index]) {
+                resumeData.workExperience[index][field] = value;
+            }
+        }
+
+        function removeWork(index) {
+            resumeData.workExperience.splice(index, 1);
+            renderWorkList();
+        }
+
+        // 项目经历
+        function addProject() {
+            const project = {
+                id: Utils.generateId(),
+                name: '',
+                role: '',
+                startDate: '',
+                endDate: '',
+                description: ''
+            };
+            resumeData.projectExperience = resumeData.projectExperience || [];
+            resumeData.projectExperience.push(project);
+            renderProjectList();
+        }
+
+        function renderProjectList() {
+            const container = document.getElementById('project-list');
+            if (!resumeData.projectExperience?.length) {
+                container.innerHTML = `
+                    <div style="text-align: center; padding: 40px; color: var(--text-gray);">
+                        <p>暂无项目经历</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            container.innerHTML = resumeData.projectExperience.map((project, index) => `
+                <div class="card" style="margin-bottom: 16px; background-color: var(--bg-light);">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 16px;">
+                        <span style="font-weight: 600;">项目经历 ${index + 1}</span>
+                        <button class="btn btn-sm btn-danger" onclick="removeProject(${index})">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>项目名称</label>
+                            <input type="text" class="form-control" value="${project.name}"
+                                   onchange="updateProject(${index}, 'name', this.value)" placeholder="项目名称">
+                        </div>
+                        <div class="form-group">
+                            <label>项目角色</label>
+                            <input type="text" class="form-control" value="${project.role}"
+                                   onchange="updateProject(${index}, 'role', this.value)" placeholder="如：前端开发">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>开始时间</label>
+                            <input type="month" class="form-control" value="${project.startDate}"
+                                   onchange="updateProject(${index}, 'startDate', this.value)">
+                        </div>
+                        <div class="form-group">
+                            <label>结束时间</label>
+                            <input type="month" class="form-control" value="${project.endDate}"
+                                   onchange="updateProject(${index}, 'endDate', this.value)">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>项目描述</label>
+                        <textarea class="form-control" rows="3"
+                                  onchange="updateProject(${index}, 'description', this.value)" 
+                                  placeholder="项目背景、技术栈、个人贡献、项目成果">${project.description}</textarea>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function updateProject(index, field, value) {
+            if (resumeData.projectExperience[index]) {
+                resumeData.projectExperience[index][field] = value;
+            }
+        }
+
+        function removeProject(index) {
+            resumeData.projectExperience.splice(index, 1);
+            renderProjectList();
+        }
+    </script>
+</body>
+</html>

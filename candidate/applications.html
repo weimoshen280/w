@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的投递 - AI智能招聘平台</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <a href="index.html"><i class="fas fa-robot"></i> AI招聘</a>
+            </div>
+            <nav class="nav">
+                <div class="nav-links">
+                    <a href="index.html">首页</a>
+                    <a href="jobs.html">职位</a>
+                    <a href="resume.html">简历</a>
+                    <a href="applications.html" class="active">投递</a>
+                    <a href="interview.html">面试</a>
+                </div>
+                <div class="nav-actions">
+                    <button class="btn btn-outline btn-sm" onclick="window.location.href='chat.html'">
+                        <i class="fas fa-comment"></i> 消息
+                    </button>
+                    <div class="dropdown">
+                        <div class="user-menu">
+                            <div class="user-avatar">张</div>
+                            <span>张三</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="dropdown-content">
+                            <a href="profile.html"><i class="fas fa-user"></i> 个人中心</a>
+                            <a href="resume.html"><i class="fas fa-file-alt"></i> 我的简历</a>
+                            <a href="settings.html"><i class="fas fa-cog"></i> 设置</a>
+                            <a href="../login.html"><i class="fas fa-sign-out-alt"></i> 退出</a>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+            <div class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </header>
+
+    <div class="container" style="padding: 24px;">
+        <div class="page-header" style="padding: 0; border: none; margin-bottom: 24px;">
+            <h1>我的投递</h1>
+            <p>查看投递记录和进度追踪</p>
+        </div>
+
+        <!-- 统计卡片 -->
+        <div class="stats-grid" style="grid-template-columns: repeat(4, 1fr); margin-bottom: 24px;">
+            <div class="stat-card">
+                <div class="stat-icon primary"><i class="fas fa-paper-plane"></i></div>
+                <div class="stat-info">
+                    <h4 id="totalCount">0</h4>
+                    <p>已投递</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon warning"><i class="fas fa-eye"></i></div>
+                <div class="stat-info">
+                    <h4 id="viewedCount">0</h4>
+                    <p>被查看</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon success"><i class="fas fa-comments"></i></div>
+                <div class="stat-info">
+                    <h4 id="interviewCount">0</h4>
+                    <p>待面试</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon danger"><i class="fas fa-check-circle"></i></div>
+                <div class="stat-info">
+                    <h4 id="offerCount">0</h4>
+                    <p>待确认</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 筛选 -->
+        <div class="card" style="margin-bottom: 24px;">
+            <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+                <button class="btn btn-sm filter-btn active" onclick="filterApplications('all')">全部</button>
+                <button class="btn btn-sm filter-btn" onclick="filterApplications('pending')">待处理</button>
+                <button class="btn btn-sm filter-btn" onclick="filterApplications('viewed')">已查看</button>
+                <button class="btn btn-sm filter-btn" onclick="filterApplications('interview')">待面试</button>
+                <button class="btn btn-sm filter-btn" onclick="filterApplications('offer')">待入职</button>
+                <button class="btn btn-sm filter-btn" onclick="filterApplications('rejected')">已拒绝</button>
+            </div>
+        </div>
+
+        <!-- 投递列表 -->
+        <div id="applicationsList">
+            <!-- 动态加载 -->
+        </div>
+    </div>
+
+    <!-- 投递详情弹窗 -->
+    <div id="applicationModal" class="modal">
+        <div class="modal-content" style="max-width: 700px;">
+            <div class="modal-header">
+                <h3>投递详情</h3>
+                <span class="modal-close" onclick="Modal.close('applicationModal')">&times;</span>
+            </div>
+            <div class="modal-body" id="applicationModalContent">
+                <!-- 动态加载 -->
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" onclick="withdrawApplication()">
+                    <i class="fas fa-times"></i> 撤回投递
+                </button>
+                <button class="btn btn-primary" onclick="startAIM Interview()">
+                    <i class="fas fa-video"></i> AI模拟面试
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/app.js"></script>
+    <script>
+        let applications = [];
+        let currentFilter = 'all';
+        let currentApplicationId = null;
+
+        document.addEventListener('DOMContentLoaded', function() {
+            loadApplications();
+        });
+
+        function loadApplications() {
+            applications = ApplicationManager.getForCandidate();
+            updateStats();
+            renderApplications();
+        }
+
+        function updateStats() {
+            document.getElementById('totalCount').textContent = applications.length;
+            document.getElementById('viewedCount').textContent = applications.filter(a => a.status === 'viewed').length;
+            document.getElementById('interviewCount').textContent = applications.filter(a => a.status === 'interview').length;
+            document.getElementById('offerCount').textContent = applications.filter(a => a.status === 'offer').length;
+        }
+
+        function filterApplications(filter) {
+            currentFilter = filter;
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            renderApplications();
+        }
+
+        function renderApplications() {
+            const container = document.getElementById('applicationsList');
+            
+            let filtered = applications;
+            if (currentFilter !== 'all') {
+                filtered = applications.filter(a => a.status === currentFilter);
+            }
+            
+            if (filtered.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-inbox"></i>
+                        <h3>暂无投递记录</h3>
+                        <p>快去搜索心仪的职位吧</p>
+                        <a href="jobs.html" class="btn btn-primary">浏览职位</a>
+                    </div>
+                `;
+                return;
+            }
+            
+            container.innerHTML = filtered.map(app => `
+                <div class="card" style="margin-bottom: 16px; cursor: pointer;" onclick="showApplicationDetail('${app.id}')">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                        <div style="flex: 1;">
+                            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 8px;">
+                                <h3 style="font-size: 18px;">${app.jobTitle}</h3>
+                                ${getStatusBadge(app.status)}
+                            </div>
+                            <div style="color: var(--text-gray); margin-bottom: 8px;">${app.company}</div>
+                            <div style="display: flex; gap: 20px; color: var(--text-light); font-size: 14px;">
+                                <span><i class="fas fa-clock"></i> ${Utils.formatDateTime(app.appliedAt)}</span>
+                                <span><i class="fas fa-clock"></i> 更新于 ${Utils.formatDateTime(app.updatedAt || app.appliedAt)}</span>
+                            </div>
+                        </div>
+                        <div style="text-align: right;">
+                            ${getProgressIndicator(app.status)}
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function getStatusBadge(status) {
+            const badges = {
+                'pending': '<span class="tag">待处理</span>',
+                'viewed': '<span class="tag tag-warning">已查看</span>',
+                'interview': '<span class="tag tag-primary">待面试</span>',
+                'offer': '<span class="tag tag-success">待入职</span>',
+                'rejected': '<span class="tag tag-danger">已拒绝</span>'
+            };
+            return badges[status] || badges['pending'];
+        }
+
+        function getProgressIndicator(status) {
+            const stages = ['投递', '初筛', 'AI面', '复试', '入职'];
+            const currentIndex = {
+                'pending': 0,
+                'viewed': 1,
+                'interview': 2,
+                'offer': 3,
+                'rejected': -1
+            }[status] ?? 0;
+            
+            if (status === 'rejected') {
+                return '<span class="tag tag-danger">流程结束</span>';
+            }
+            
+            return `
+                <div style="display: flex; gap: 4px;">
+                    ${stages.slice(0, 4).map((stage, i) => `
+                        <div style="width: 24px; height: 24px; border-radius: 50%; 
+                                    background-color: ${i <= currentIndex ? 'var(--primary-color)' : 'var(--bg-light)'}; 
+                                    color: ${i <= currentIndex ? 'white' : 'var(--text-light)'}; 
+                                    display: flex; align-items: center; justify-content: center; font-size: 10px;">
+                            ${i + 1}
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        function showApplicationDetail(appId) {
+            currentApplicationId = appId;
+            const app = applications.find(a => a.id === appId);
+            if (!app) return;
+            
+            const statusInfo = {
+                'pending': { text: '待处理', color: 'var(--text-gray)' },
+                'viewed': { text: 'HR已查看', color: 'var(--warning-color)' },
+                'interview': { text: '等待面试', color: 'var(--primary-color)' },
+                'offer': { text: '待确认入职', color: 'var(--success-color)' },
+                'rejected': { text: '暂不合适', color: 'var(--danger-color)' }
+            };
+            
+            document.getElementById('applicationModalContent').innerHTML = `
+                <div style="margin-bottom: 24px;">
+                    <h2 style="margin-bottom: 8px;">${app.jobTitle}</h2>
+                    <div style="color: var(--text-gray); margin-bottom: 8px;">${app.company}</div>
+                    <span class="tag" style="background-color: ${statusInfo[app.status]?.color}; color: white;">
+                        ${statusInfo[app.status]?.text}
+                    </span>
+                </div>
+                
+                <div style="background-color: var(--bg-light); padding: 20px; border-radius: var(--radius-md); margin-bottom: 24px;">
+                    <h4 style="margin-bottom: 12px;">投递进度</h4>
+                    <div style="display: flex; justify-content: space-between; position: relative;">
+                        <div style="flex: 1; text-align: center;">
+                            <div style="width: 32px; height: 32px; border-radius: 50%; background-color: var(--primary-color); color: white; display: flex; align-items: center; justify-content: center; margin: 0 auto 8px;">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <div style="font-size: 12px;">投递成功</div>
+                        </div>
+                        <div style="flex: 1; text-align: center;">
+                            <div style="width: 32px; height: 32px; border-radius: 50%; background-color: ${['viewed', 'interview', 'offer'].includes(app.status) ? 'var(--primary-color)' : 'var(--bg-light)'}; color: ${['viewed', 'interview', 'offer'].includes(app.status) ? 'white' : 'var(--text-light)'}; display: flex; align-items: center; justify-content: center; margin: 0 auto 8px;">
+                                ${['viewed', 'interview', 'offer'].includes(app.status) ? '<i class="fas fa-check"></i>' : '2'}
+                            </div>
+                            <div style="font-size: 12px;">HR初筛</div>
+                        </div>
+                        <div style="flex: 1; text-align: center;">
+                            <div style="width: 32px; height: 32px; border-radius: 50%; background-color: ${['interview', 'offer'].includes(app.status) ? 'var(--primary-color)' : 'var(--bg-light)'}; color: ${['interview', 'offer'].includes(app.status) ? 'white' : 'var(--text-light)'}; display: flex; align-items: center; justify-content: center; margin: 0 auto 8px;">
+                                ${['interview', 'offer'].includes(app.status) ? '<i class="fas fa-check"></i>' : '3'}
+                            </div>
+                            <div style="font-size: 12px;">AI面试</div>
+                        </div>
+                        <div style="flex: 1; text-align: center;">
+                            <div style="width: 32px; height: 32px; border-radius: 50%; background-color: ${app.status === 'offer' ? 'var(--primary-color)' : 'var(--bg-light)'}; color: ${app.status === 'offer' ? 'white' : 'var(--text-light)'}; display: flex; align-items: center; justify-content: center; margin: 0 auto 8px;">
+                                ${app.status === 'offer' ? '<i class="fas fa-check"></i>' : '4'}
+                            </div>
+                            <div style="font-size: 12px;">复试</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="margin-bottom: 16px;">
+                    <h4 style="margin-bottom: 12px;">基本信息</h4>
+                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; font-size: 14px;">
+                        <div><span style="color: var(--text-gray);">投递时间：</span>${Utils.formatDateTime(app.appliedAt)}</div>
+                        <div><span style="color: var(--text-gray);">简历状态：</span>已发送</div>
+                    </div>
+                </div>
+            `;
+            
+            Modal.open('applicationModal');
+        }
+
+        function withdrawApplication() {
+            if (confirm('确定要撤回这份投递吗？')) {
+                ApplicationManager.updateStatus(currentApplicationId, 'withdrawn');
+                Utils.showToast('投递已撤回', 'success');
+                Modal.close('applicationModal');
+                loadApplications();
+            }
+        }
+
+        function startAIMInterview() {
+            window.location.href = 'interview.html?appId=' + currentApplicationId;
+        }
+    </script>
+
+    <style>
+        .filter-btn {
+            background-color: var(--bg-light);
+            border: 1px solid var(--border-color);
+            color: var(--text-gray);
+        }
+        .filter-btn.active {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            color: white;
+        }
+    </style>
+</body>
+</html>
